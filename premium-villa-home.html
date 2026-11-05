@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Premium luxury home maintenance services in Saudi Arabia. Professional AC, electrical, plumbing, painting, and property care. صيانة منزلية فاخرة في المملكة العربية السعودية">
+    <meta name="keywords" content="home maintenance Saudi Arabia, luxury home care, صيانة منازل, خدمات منزلية فاخرة, Riyadh, Jeddah, Makkah">
+    <meta property="og:title" content="Elite Home Care - Premium Maintenance Services">
+    <meta property="og:description" content="Exceptional care for every corner of your home. Premium home maintenance services in Saudi Arabia.">
+    <meta property="og:type" content="website">
+    <title>Elite Home Care - Premium Home Maintenance Services Saudi Arabia | صيانة منازل فاخرة</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="premium-villa.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-icon">
+                <i class="fas fa-building"></i>
+            </div>
+            <div class="loading-brand">Elite Home Care</div>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- 3D Canvas -->
+    <canvas id="villa-canvas"></canvas>
+
+    <!-- Language Toggle -->
+    <button id="lang-toggle" class="lang-toggle glass-btn" aria-label="Switch Language">
+        <i class="fas fa-globe"></i>
+        <span id="lang-text">عربي</span>
+    </button>
+
+    <!-- Floating Contact (NO visible phone number) -->
+    <a href="https://wa.me/966597865115" class="float-contact whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Contact on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <a href="tel:+966597865115" class="float-contact phone" aria-label="Call us">
+        <i class="fas fa-phone"></i>
+    </a>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="main-nav glass-nav">
+        <div class="nav-container">
+            <a href="#home" class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="brand-text">
+                    <div class="brand-name" data-en="Elite Home Care" data-ar="إيليت لصيانة المنازل">Elite Home Care</div>
+                    <div class="brand-tagline" data-en="Premium Services" data-ar="خدمات متميزة">Premium Services</div>
+                </div>
+            </a>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link" data-en="Home" data-ar="الرئيسية">Home</a>
+                <a href="#services" class="nav-link" data-en="Services" data-ar="خدماتنا">Services</a>
+                <a href="#about" class="nav-link" data-en="About Us" data-ar="من نحن">About Us</a>
+                <a href="#gallery" class="nav-link" data-en="Our Work" data-ar="أعمالنا">Our Work</a>
+                <a href="#reviews" class="nav-link" data-en="Reviews" data-ar="آراء العملاء">Reviews</a>
+                <a href="#areas" class="nav-link" data-en="Service Areas" data-ar="مناطق الخدمة">Service Areas</a>
+                <a href="#contact" class="nav-link" data-en="Contact" data-ar="اتصل بنا">Contact</a>
+                <a href="#booking" class="nav-link nav-cta">
+                    <i class="fas fa-calendar-check"></i>
+                    <span data-en="Book Now" data-ar="احجز الآن">Book Now</span>
+                </a>
+            </div>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section with 3D Villa -->
+    <section id="home" class="hero-villa">
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge glass-badge">
+                <i class="fas fa-crown"></i>
+                <span data-en="Premium Luxury Service" data-ar="خدمة فاخرة متميزة">Premium Luxury Service</span>
+            </div>
+
+            <h1 class="hero-title">
+                <span class="title-line" data-en="Exceptional Care for" data-ar="عناية استثنائية">Exceptional Care for</span>
+                <span class="title-highlight" data-en="Every Corner" data-ar="لكل زاوية">Every Corner</span>
+                <span class="title-line" data-en="of Your Home" data-ar="في منزلك">of Your Home</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                <span data-en="Premium Home Maintenance. Professional Service. Complete Peace of Mind." data-ar="صيانة منزلية متميزة، وخدمات احترافية، وراحة بال تامة.">
+                    Premium Home Maintenance. Professional Service. Complete Peace of Mind.
+                </span>
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#booking" class="btn btn-primary btn-glass">
+                    <i class="fas fa-calendar-check"></i>
+                    <span data-en="Book a Service" data-ar="احجز خدمة">Book a Service</span>
+                </a>
+                <a href="#services" class="btn btn-secondary btn-glass">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span data-en="Explore Services" data-ar="استكشف الخدمات">Explore Services</span>
+                </a>
+            </div>
+
+            <div class="hero-trust">
+                <div class="trust-badge">
+                    <i class="fas fa-shield-check"></i>
+                    <span data-en="Quality Guaranteed" data-ar="جودة مضمونة">Quality Guaranteed</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-user-tie"></i>
+                    <span data-en="Professional Team" data-ar="فريق محترف">Professional Team</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-clock"></i>
+                    <span data-en="On-Time Service" data-ar="خدمة في الموعد">On-Time Service</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Quick Services Preview -->
+    <section class="quick-services">
+        <div class="container">
+            <div class="quick-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Our Services" data-ar="خدماتنا">Our Services</span>
+                <h2 class="section-title" data-en="Complete Home Care Solutions" data-ar="حلول شاملة لصيانة المنازل">Complete Home Care Solutions</h2>
+                <p class="section-subtitle" data-en="Professional maintenance services tailored to your needs" data-ar="خدمات صيانة احترافية مصممة خصيصاً لاحتياجاتك">
+                    Professional maintenance services tailored to your needs
+                </p>
+            </div>
+            <div class="services-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="About Us" data-ar="من نحن">About Us</span>
+                <h2 class="section-title" data-en="Excellence in Home Care" data-ar="التميز في العناية بالمنازل">Excellence in Home Care</h2>
+            </div>
+
+            <div class="about-content">
+                <div class="about-text glass-card">
+                    <h3 data-en="Premium Home Maintenance Excellence" data-ar="التميز في الصيانة المنزلية الفاخرة">Premium Home Maintenance Excellence</h3>
+                    <p data-en="We are a leading home maintenance service provider committed to delivering exceptional quality and reliable solutions for all your home care needs." data-ar="نحن مزود خدمات صيانة منزلية رائد ملتزم بتقديم جودة استثنائية وحلول موثوقة لجميع احتياجات العناية بمنزلك.">
+                        We are a leading home maintenance service provider committed to delivering exceptional quality and reliable solutions for all your home care needs.
+                    </p>
+
+                    <div class="value-box">
+                        <i class="fas fa-bullseye"></i>
+                        <h4 data-en="Our Mission" data-ar="مهمتنا">Our Mission</h4>
+                        <p data-en="To provide professional, reliable, and affordable home maintenance services that exceed customer expectations." data-ar="تقديم خدمات صيانة منزلية احترافية وموثوقة وبأسعار معقولة تتجاوز توقعات العملاء.">
+                            To provide professional, reliable, and affordable home maintenance services that exceed customer expectations.
+                        </p>
+                    </div>
+
+                    <div class="value-box">
+                        <i class="fas fa-eye"></i>
+                        <h4 data-en="Our Vision" data-ar="رؤيتنا">Our Vision</h4>
+                        <p data-en="To be the most trusted home maintenance service provider known for quality workmanship and customer satisfaction." data-ar="أن نكون مزود خدمات الصيانة المنزلية الأكثر ثقة المعروف بجودة العمل ورضا العملاء.">
+                            To be the most trusted home maintenance service provider known for quality workmanship and customer satisfaction.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="about-stats">
+                    <div class="stat-card glass-card">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-number" data-target="1000">0</div>
+                        <p data-en="Happy Customers" data-ar="عملاء سعداء">Happy Customers</p>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <i class="fas fa-tools"></i>
+                        <div class="stat-number" data-target="5000">0</div>
+                        <p data-en="Projects Completed" data-ar="مشاريع مكتملة">Projects Completed</p>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <i class="fas fa-award"></i>
+                        <div class="stat-number" data-target="10">0</div>
+                        <p data-en="Years Experience" data-ar="سنوات خبرة">Years Experience</p>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <i class="fas fa-user-tie"></i>
+                        <div class="stat-number" data-target="50">0</div>
+                        <p data-en="Expert Technicians" data-ar="فنيون خبراء">Expert Technicians</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Our Work" data-ar="أعمالنا">Our Work</span>
+                <h2 class="section-title" data-en="Project Gallery" data-ar="معرض المشاريع">Project Gallery</h2>
+                <p class="section-subtitle" data-en="Quality work that speaks for itself" data-ar="أعمال عالية الجودة تتحدث عن نفسها">Quality work that speaks for itself</p>
+            </div>
+
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all" data-en="All" data-ar="الكل">All</button>
+                <button class="filter-btn" data-filter="ac" data-en="AC Services" data-ar="التكييف">AC Services</button>
+                <button class="filter-btn" data-filter="electrical" data-en="Electrical" data-ar="كهرباء">Electrical</button>
+                <button class="filter-btn" data-filter="plumbing" data-en="Plumbing" data-ar="سباكة">Plumbing</button>
+                <button class="filter-btn" data-filter="painting" data-en="Painting" data-ar="دهانات">Painting</button>
+                <button class="filter-btn" data-filter="kitchen" data-en="Kitchen" data-ar="مطبخ">Kitchen</button>
+                <button class="filter-btn" data-filter="bathroom" data-en="Bathroom" data-ar="حمام">Bathroom</button>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="reviews-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Reviews" data-ar="آراء العملاء">Reviews</span>
+                <h2 class="section-title" data-en="What Our Customers Say" data-ar="ماذا يقول عملاؤنا">What Our Customers Say</h2>
+            </div>
+            <div class="reviews-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Why Choose Us" data-ar="لماذا نحن">Why Choose Us</span>
+                <h2 class="section-title" data-en="Excellence in Every Detail" data-ar="التميز في كل التفاصيل">Excellence in Every Detail</h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-card glass-card tilt-3d">
+                    <i class="fas fa-award"></i>
+                    <h3 data-en="Professional Workmanship" data-ar="حرفية احترافية">Professional Workmanship</h3>
+                    <p data-en="Certified technicians with years of experience delivering quality results." data-ar="فنيون معتمدون بسنوات من الخبرة لتقديم نتائج عالية الجودة.">Certified technicians with years of experience delivering quality results.</p>
+                </div>
+                <div class="why-card glass-card tilt-3d">
+                    <i class="fas fa-shield-check"></i>
+                    <h3 data-en="Quality Guaranteed" data-ar="جودة مضمونة">Quality Guaranteed</h3>
+                    <p data-en="We stand behind our work with comprehensive service guarantees." data-ar="نضمن عملنا بضمانات خدمة شاملة.">We stand behind our work with comprehensive service guarantees.</p>
+                </div>
+                <div class="why-card glass-card tilt-3d">
+                    <i class="fas fa-comments"></i>
+                    <h3 data-en="Clear Communication" data-ar="تواصل واضح">Clear Communication</h3>
+                    <p data-en="Transparent pricing and honest communication at every step." data-ar="أسعار شفافة وتواصل صادق في كل خطوة.">Transparent pricing and honest communication at every step.</p>
+                </div>
+                <div class="why-card glass-card tilt-3d">
+                    <i class="fas fa-smile"></i>
+                    <h3 data-en="Customer Satisfaction" data-ar="رضا العملاء">Customer Satisfaction</h3>
+                    <p data-en="Your satisfaction is our top priority in every project." data-ar="رضاك هو أولويتنا القصوى في كل مشروع.">Your satisfaction is our top priority in every project.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Areas -->
+    <section id="areas" class="areas-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Service Areas" data-ar="مناطق الخدمة">Service Areas</span>
+                <h2 class="section-title" data-en="Serving Across Saudi Arabia" data-ar="نخدم في جميع أنحاء المملكة">Serving Across Saudi Arabia</h2>
+            </div>
+            <div class="areas-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Section -->
+    <section class="emergency-section">
+        <div class="container">
+            <div class="emergency-card glass-card">
+                <div class="emergency-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2 data-en="Emergency Maintenance" data-ar="صيانة طوارئ">Emergency Maintenance</h2>
+                <p data-en="Need urgent repairs? Contact us immediately for emergency maintenance services." data-ar="تحتاج إلى إصلاحات عاجلة؟ اتصل بنا فوراً للحصول على خدمات الصيانة الطارئة.">
+                    Need urgent repairs? Contact us immediately for emergency maintenance services.
+                </p>
+                <div class="emergency-buttons">
+                    <a href="https://wa.me/966597865115" class="btn btn-primary btn-glass">
+                        <i class="fab fa-whatsapp"></i>
+                        <span data-en="WhatsApp Now" data-ar="واتساب الآن">WhatsApp Now</span>
+                    </a>
+                    <a href="tel:+966597865115" class="btn btn-secondary btn-glass">
+                        <i class="fas fa-phone"></i>
+                        <span data-en="Call Now" data-ar="اتصل الآن">Call Now</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Contact Us" data-ar="اتصل بنا">Contact Us</span>
+                <h2 class="section-title" data-en="Get In Touch" data-ar="تواصل معنا">Get In Touch</h2>
+            </div>
+
+            <div class="contact-wrapper">
+                <form class="contact-form glass-card" id="contact-form">
+                    <div class="form-group">
+                        <label data-en="Your Name" data-ar="اسمك">Your Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Phone Number" data-ar="رقم الهاتف">Phone Number</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Service Needed" data-ar="الخدمة المطلوبة">Service Needed</label>
+                        <select name="service" required>
+                            <option value="">Select...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Message" data-ar="رسالة">Message</label>
+                        <textarea name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-glass">
+                        <i class="fas fa-paper-plane"></i>
+                        <span data-en="Send Message" data-ar="إرسال رسالة">Send Message</span>
+                    </button>
+                </form>
+
+                <div class="contact-info">
+                    <div class="info-card glass-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h4 data-en="Location" data-ar="الموقع">Location</h4>
+                        <p data-en="Saudi Arabia" data-ar="المملكة العربية السعودية">Saudi Arabia</p>
+                    </div>
+                    <div class="info-card glass-card">
+                        <i class="fas fa-clock"></i>
+                        <h4 data-en="Working Hours" data-ar="ساعات العمل">Working Hours</h4>
+                        <p data-en="24/7 Emergency Service" data-ar="خدمة طوارئ على مدار الساعة">24/7 Emergency Service</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="booking-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Book Now" data-ar="احجز الآن">Book Now</span>
+                <h2 class="section-title" data-en="Schedule Your Service" data-ar="حدد موعد خدمتك">Schedule Your Service</h2>
+            </div>
+
+            <form class="booking-form glass-card" id="booking-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Mobile Number" data-ar="رقم الجوال">Mobile Number</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-en="Select Service" data-ar="اختر الخدمة">Select Service</label>
+                        <select name="service" required>
+                            <option value="">Choose...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="City" data-ar="المدينة">City</label>
+                        <select name="city" required>
+                            <option value="">Select...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-en="Preferred Date" data-ar="التاريخ المفضل">Preferred Date</label>
+                        <input type="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Preferred Time" data-ar="الوقت المفضل">Preferred Time</label>
+                        <input type="time" name="time" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Service Address" data-ar="عنوان الخدمة">Service Address</label>
+                    <textarea name="address" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Additional Details" data-ar="تفاصيل إضافية">Additional Details</label>
+                    <textarea name="details" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-glass btn-lg">
+                    <i class="fas fa-calendar-check"></i>
+                    <span data-en="Submit Booking Request" data-ar="إرسال طلب الحجز">Submit Booking Request</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer glass-nav">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="brand">
+                        <i class="fas fa-building"></i>
+                        <h3 data-en="Elite Home Care" data-ar="إيليت لصيانة المنازل">Elite Home Care</h3>
+                    </div>
+                    <p data-en="Your trusted partner for professional home maintenance services in Saudi Arabia." data-ar="شريكك الموثوق للخدمات المنزلية الاحترافية في المملكة العربية السعودية.">
+                        Your trusted partner for professional home maintenance services in Saudi Arabia.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 data-en="Quick Links" data-ar="روابط سريعة">Quick Links</h4>
+                    <ul>
+                        <li><a href="#home" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                        <li><a href="#services" data-en="Services" data-ar="الخدمات">Services</a></li>
+                        <li><a href="#about" data-en="About" data-ar="من نحن">About</a></li>
+                        <li><a href="#gallery" data-en="Our Work" data-ar="أعمالنا">Our Work</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 data-en="Services" data-ar="الخدمات">Services</h4>
+                    <ul>
+                        <li><a href="#services" data-en="AC Services" data-ar="التكييف">AC Services</a></li>
+                        <li><a href="#services" data-en="Electrical" data-ar="كهرباء">Electrical</a></li>
+                        <li><a href="#services" data-en="Plumbing" data-ar="سباكة">Plumbing</a></li>
+                        <li><a href="#services" data-en="Painting" data-ar="دهانات">Painting</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 data-en="Connect" data-ar="تواصل">Connect</h4>
+                    <div class="social-links">
+                        <a href="https://wa.me/966597865115" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="tel:+966597865115" aria-label="Phone"><i class="fas fa-phone"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Elite Home Care. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="premium-villa-app.js"></script>
+</body>
+</html>
