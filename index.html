@@ -1,142 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Professional Home Maintenance Services - Your Home, Our Responsibility. Expert AC, Plumbing, Electrical, Painting & More.">
-    <title>Premium Home Maintenance Services | Your Home, Our Responsibility</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Premium luxury home maintenance services in Saudi Arabia. Professional AC, electrical, plumbing, painting, and property care. صيانة منزلية فاخرة في المملكة العربية السعودية">
+    <meta name="keywords" content="home maintenance Saudi Arabia, luxury home care, صيانة منازل, خدمات منزلية فاخرة, Riyadh, Jeddah, Makkah">
+    <meta property="og:title" content="Elite Home Care - Premium Maintenance Services">
+    <meta property="og:description" content="Exceptional care for every corner of your home. Premium home maintenance services in Saudi Arabia.">
+    <meta property="og:type" content="website">
+    <title>Elite Home Care - Premium Home Maintenance Services Saudi Arabia | صيانة منازل فاخرة</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="premium-villa.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-home"></i>
-                <span>Home Maintenance</span>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-icon">
+                <i class="fas fa-building"></i>
             </div>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#services" class="nav-link">Services</a></li>
-                <li><a href="#about" class="nav-link">About Us</a></li>
-                <li><a href="#gallery" class="nav-link">Our Work</a></li>
-                <li><a href="#reviews" class="nav-link">Reviews</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-                <li><a href="#booking" class="nav-link btn-book-nav">Book Now</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <div class="loading-brand">Elite Home Care</div>
+            <div class="loading-spinner"></div>
         </div>
-    </nav>
+    </div>
 
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/966597865115" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+    <!-- 3D Canvas -->
+    <canvas id="villa-canvas"></canvas>
+
+    <!-- Language Toggle -->
+    <button id="lang-toggle" class="lang-toggle glass-btn" aria-label="Switch Language">
+        <i class="fas fa-globe"></i>
+        <span id="lang-text">عربي</span>
+    </button>
+
+    <!-- Floating Contact (NO visible phone number) -->
+    <a href="https://wa.me/966597865115" class="float-contact whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Contact on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Home Section -->
-    <section id="home" class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1 class="hero-title" data-aos="fade-up">Your Home, Our Responsibility</h1>
-            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">Professional Home Maintenance Services You Can Trust</p>
-            <div class="hero-buttons" data-aos="fade-up" data-aos-delay="200">
-                <a href="#booking" class="btn btn-primary">
-                    <i class="fas fa-calendar-check"></i> Book a Service
-                </a>
-                <a href="#services" class="btn btn-secondary">
-                    <i class="fas fa-th-large"></i> Explore Services
+    <a href="tel:+966597865115" class="float-contact phone" aria-label="Call us">
+        <i class="fas fa-phone"></i>
+    </a>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="main-nav glass-nav">
+        <div class="nav-container">
+            <a href="#home" class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="brand-text">
+                    <div class="brand-name" data-en="Elite Home Care" data-ar="إيليت لصيانة المنازل">Elite Home Care</div>
+                    <div class="brand-tagline" data-en="Premium Services" data-ar="خدمات متميزة">Premium Services</div>
+                </div>
+            </a>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link" data-en="Home" data-ar="الرئيسية">Home</a>
+                <a href="#services" class="nav-link" data-en="Services" data-ar="خدماتنا">Services</a>
+                <a href="#about" class="nav-link" data-en="About Us" data-ar="من نحن">About Us</a>
+                <a href="#gallery" class="nav-link" data-en="Our Work" data-ar="أعمالنا">Our Work</a>
+                <a href="#reviews" class="nav-link" data-en="Reviews" data-ar="آراء العملاء">Reviews</a>
+                <a href="#areas" class="nav-link" data-en="Service Areas" data-ar="مناطق الخدمة">Service Areas</a>
+                <a href="#contact" class="nav-link" data-en="Contact" data-ar="اتصل بنا">Contact</a>
+                <a href="#booking" class="nav-link nav-cta">
+                    <i class="fas fa-calendar-check"></i>
+                    <span data-en="Book Now" data-ar="احجز الآن">Book Now</span>
                 </a>
             </div>
-            <div class="hero-contact-icons" data-aos="fade-up" data-aos-delay="300">
-                <a href="tel:+966597865115" class="contact-icon" aria-label="Call us">
-                    <i class="fas fa-phone"></i>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section with 3D Villa -->
+    <section id="home" class="hero-villa">
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge glass-badge">
+                <i class="fas fa-crown"></i>
+                <span data-en="Premium Luxury Service" data-ar="خدمة فاخرة متميزة">Premium Luxury Service</span>
+            </div>
+
+            <h1 class="hero-title">
+                <span class="title-line" data-en="Exceptional Care for" data-ar="عناية استثنائية">Exceptional Care for</span>
+                <span class="title-highlight" data-en="Every Corner" data-ar="لكل زاوية">Every Corner</span>
+                <span class="title-line" data-en="of Your Home" data-ar="في منزلك">of Your Home</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                <span data-en="Premium Home Maintenance. Professional Service. Complete Peace of Mind." data-ar="صيانة منزلية متميزة، وخدمات احترافية، وراحة بال تامة.">
+                    Premium Home Maintenance. Professional Service. Complete Peace of Mind.
+                </span>
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#booking" class="btn btn-primary btn-glass">
+                    <i class="fas fa-calendar-check"></i>
+                    <span data-en="Book a Service" data-ar="احجز خدمة">Book a Service</span>
                 </a>
-                <a href="https://wa.me/966597865115" class="contact-icon" aria-label="WhatsApp us">
-                    <i class="fab fa-whatsapp"></i>
+                <a href="#services" class="btn btn-secondary btn-glass">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span data-en="Explore Services" data-ar="استكشف الخدمات">Explore Services</span>
                 </a>
+            </div>
+
+            <div class="hero-trust">
+                <div class="trust-badge">
+                    <i class="fas fa-shield-check"></i>
+                    <span data-en="Quality Guaranteed" data-ar="جودة مضمونة">Quality Guaranteed</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-user-tie"></i>
+                    <span data-en="Professional Team" data-ar="فريق محترف">Professional Team</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-clock"></i>
+                    <span data-en="On-Time Service" data-ar="خدمة في الموعد">On-Time Service</span>
+                </div>
             </div>
         </div>
-        <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="400">
+
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
             <i class="fas fa-chevron-down"></i>
         </div>
     </section>
 
-    <!-- Popular Services Preview -->
-    <section class="popular-services">
+    <!-- Quick Services Preview -->
+    <section class="quick-services">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Popular Services</h2>
-            <p class="section-subtitle" data-aos="fade-up">Expert solutions for all your home maintenance needs</p>
-            <div class="services-preview-grid">
-                <div class="service-preview-card glass-card" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="service-icon">
-                        <i class="fas fa-snowflake"></i>
-                    </div>
-                    <h3>AC Services</h3>
-                    <p>Installation, Repair & Maintenance</p>
-                </div>
-                <div class="service-preview-card glass-card" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="service-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Electrical</h3>
-                    <p>Safe & Professional Solutions</p>
-                </div>
-                <div class="service-preview-card glass-card" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="service-icon">
-                        <i class="fas fa-faucet"></i>
-                    </div>
-                    <h3>Plumbing</h3>
-                    <p>Expert Plumbing Services</p>
-                </div>
-                <div class="service-preview-card glass-card" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="service-icon">
-                        <i class="fas fa-paint-roller"></i>
-                    </div>
-                    <h3>Painting</h3>
-                    <p>Beautiful Finishes</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Choose Us -->
-    <section class="why-choose-us">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Why Choose Us</h2>
-            <div class="features-grid">
-                <div class="feature-card glass-card" data-aos="fade-right" data-aos-delay="100">
-                    <div class="feature-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3>Licensed Professionals</h3>
-                    <p>Certified technicians with years of experience</p>
-                </div>
-                <div class="feature-card glass-card" data-aos="fade-right" data-aos-delay="200">
-                    <div class="feature-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h3>On-Time Service</h3>
-                    <p>We respect your time and schedule</p>
-                </div>
-                <div class="feature-card glass-card" data-aos="fade-left" data-aos-delay="300">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Quality Guaranteed</h3>
-                    <p>100% satisfaction guarantee on all work</p>
-                </div>
-                <div class="feature-card glass-card" data-aos="fade-left" data-aos-delay="400">
-                    <div class="feature-icon">
-                        <i class="fas fa-tag"></i>
-                    </div>
-                    <h3>Affordable Pricing</h3>
-                    <p>Transparent pricing with no hidden charges</p>
-                </div>
+            <div class="quick-grid">
+                <!-- Populated by JavaScript -->
             </div>
         </div>
     </section>
@@ -144,261 +153,71 @@
     <!-- Services Section -->
     <section id="services" class="services-section">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Our Services</h2>
-            <p class="section-subtitle" data-aos="fade-up">Comprehensive home maintenance solutions</p>
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Our Services" data-ar="خدماتنا">Our Services</span>
+                <h2 class="section-title" data-en="Complete Home Care Solutions" data-ar="حلول شاملة لصيانة المنازل">Complete Home Care Solutions</h2>
+                <p class="section-subtitle" data-en="Professional maintenance services tailored to your needs" data-ar="خدمات صيانة احترافية مصممة خصيصاً لاحتياجاتك">
+                    Professional maintenance services tailored to your needs
+                </p>
+            </div>
             <div class="services-grid">
-                <!-- AC Installation & Repair -->
-                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=500&h=300&fit=crop" alt="AC Installation & Repair">
-                        <div class="service-overlay">
-                            <i class="fas fa-snowflake"></i>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <h3>AC Installation & Repair</h3>
-                        <p>Professional AC installation, repair, and maintenance services for optimal cooling performance.</p>
-                        <div class="service-buttons">
-                            <button class="btn btn-small btn-primary" onclick="showServiceDetail('ac')">View Details</button>
-                            <a href="#booking" class="btn btn-small btn-secondary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Electrical Maintenance -->
-                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=500&h=300&fit=crop" alt="Electrical Maintenance">
-                        <div class="service-overlay">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Electrical Maintenance</h3>
-                        <p>Safe and reliable electrical repairs, installations, and maintenance by certified electricians.</p>
-                        <div class="service-buttons">
-                            <button class="btn btn-small btn-primary" onclick="showServiceDetail('electrical')">View Details</button>
-                            <a href="#booking" class="btn btn-small btn-secondary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Plumbing Services -->
-                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=500&h=300&fit=crop" alt="Plumbing Services">
-                        <div class="service-overlay">
-                            <i class="fas fa-faucet"></i>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Plumbing Services</h3>
-                        <p>Expert plumbing solutions including leak repairs, pipe installations, and drain cleaning.</p>
-                        <div class="service-buttons">
-                            <button class="btn btn-small btn-primary" onclick="showServiceDetail('plumbing')">View Details</button>
-                            <a href="#booking" class="btn btn-small btn-secondary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Painting & Decoration -->
-                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500&h=300&fit=crop" alt="Painting & Decoration">
-                        <div class="service-overlay">
-                            <i class="fas fa-paint-roller"></i>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Painting & Decoration</h3>
-                        <p>Professional interior and exterior painting with premium quality finishes.</p>
-                        <div class="service-buttons">
-                            <button class="btn btn-small btn-primary" onclick="showServiceDetail('painting')">View Details</button>
-                            <a href="#booking" class="btn btn-small btn-secondary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Carpentry & Furniture Repair -->
-                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="500">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=500&h=300&fit=crop" alt="Carpentry Services">
-                        <div class="service-overlay">
-                            <i class="fas fa-hammer"></i>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Carpentry & Furniture Repair</h3>
-                        <p>Custom carpentry work and furniture repair services for your home.</p>
-                        <div class="service-buttons">
-                            <button class="btn btn-small btn-primary" onclick="showServiceDetail('carpentry')">View Details</button>
-                            <a href="#booking" class="btn btn-small btn-secondary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Home Cleaning -->
-                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="600">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&h=300&fit=crop" alt="Home Cleaning">
-                        <div class="service-overlay">
-                            <i class="fas fa-broom"></i>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Home Cleaning</h3>
-                        <p>Thorough and professional cleaning services for a spotless home.</p>
-                        <div class="service-buttons">
-                            <button class="btn btn-small btn-primary" onclick="showServiceDetail('cleaning')">View Details</button>
-                            <a href="#booking" class="btn btn-small btn-secondary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Kitchen Maintenance -->
-                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="700">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?w=500&h=300&fit=crop" alt="Kitchen Maintenance">
-                        <div class="service-overlay">
-                            <i class="fas fa-utensils"></i>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Kitchen Maintenance</h3>
-                        <p>Complete kitchen maintenance including appliance repair and cabinet work.</p>
-                        <div class="service-buttons">
-                            <button class="btn btn-small btn-primary" onclick="showServiceDetail('kitchen')">View Details</button>
-                            <a href="#booking" class="btn btn-small btn-secondary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bathroom Maintenance -->
-                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="800">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500&h=300&fit=crop" alt="Bathroom Maintenance">
-                        <div class="service-overlay">
-                            <i class="fas fa-bath"></i>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Bathroom Maintenance</h3>
-                        <p>Expert bathroom repairs, renovations, and fixture installations.</p>
-                        <div class="service-buttons">
-                            <button class="btn btn-small btn-primary" onclick="showServiceDetail('bathroom')">View Details</button>
-                            <a href="#booking" class="btn btn-small btn-secondary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- General Home Repairs -->
-                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="900">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&h=300&fit=crop" alt="General Repairs">
-                        <div class="service-overlay">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <h3>General Home Repairs</h3>
-                        <p>Fix everything from doors and windows to walls and ceilings.</p>
-                        <div class="service-buttons">
-                            <button class="btn btn-small btn-primary" onclick="showServiceDetail('general')">View Details</button>
-                            <a href="#booking" class="btn btn-small btn-secondary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Complete Home Maintenance -->
-                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="1000">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=500&h=300&fit=crop" alt="Complete Home Maintenance">
-                        <div class="service-overlay">
-                            <i class="fas fa-home"></i>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Complete Home Maintenance</h3>
-                        <p>Comprehensive maintenance packages for complete peace of mind.</p>
-                        <div class="service-buttons">
-                            <button class="btn btn-small btn-primary" onclick="showServiceDetail('complete')">View Details</button>
-                            <a href="#booking" class="btn btn-small btn-secondary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
+                <!-- Populated by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- Service Detail Modal -->
-    <div id="serviceDetailModal" class="modal">
-        <div class="modal-content glass-card">
-            <span class="modal-close" onclick="closeServiceDetail()">&times;</span>
-            <div id="serviceDetailContent"></div>
-        </div>
-    </div>
-
-    <!-- About Us Section -->
+    <!-- About Section -->
     <section id="about" class="about-section">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">About Us</h2>
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="About Us" data-ar="من نحن">About Us</span>
+                <h2 class="section-title" data-en="Excellence in Home Care" data-ar="التميز في العناية بالمنازل">Excellence in Home Care</h2>
+            </div>
+
             <div class="about-content">
-                <div class="about-text glass-card" data-aos="fade-right">
-                    <h3>Professional Home Maintenance Excellence</h3>
-                    <p>We are a leading home maintenance service provider committed to delivering exceptional quality and reliable solutions for all your home care needs.</p>
-                    <p>With years of experience and a team of certified professionals, we've built a reputation for excellence in the industry. Our mission is to make home maintenance hassle-free, affordable, and of the highest quality.</p>
+                <div class="about-text glass-card">
+                    <h3 data-en="Premium Home Maintenance Excellence" data-ar="التميز في الصيانة المنزلية الفاخرة">Premium Home Maintenance Excellence</h3>
+                    <p data-en="We are a leading home maintenance service provider committed to delivering exceptional quality and reliable solutions for all your home care needs." data-ar="نحن مزود خدمات صيانة منزلية رائد ملتزم بتقديم جودة استثنائية وحلول موثوقة لجميع احتياجات العناية بمنزلك.">
+                        We are a leading home maintenance service provider committed to delivering exceptional quality and reliable solutions for all your home care needs.
+                    </p>
 
-                    <div class="about-mission">
-                        <h4><i class="fas fa-bullseye"></i> Our Mission</h4>
-                        <p>To provide professional, reliable, and affordable home maintenance services that exceed customer expectations and create lasting relationships built on trust.</p>
+                    <div class="value-box">
+                        <i class="fas fa-bullseye"></i>
+                        <h4 data-en="Our Mission" data-ar="مهمتنا">Our Mission</h4>
+                        <p data-en="To provide professional, reliable, and affordable home maintenance services that exceed customer expectations." data-ar="تقديم خدمات صيانة منزلية احترافية وموثوقة وبأسعار معقولة تتجاوز توقعات العملاء.">
+                            To provide professional, reliable, and affordable home maintenance services that exceed customer expectations.
+                        </p>
                     </div>
 
-                    <div class="about-vision">
-                        <h4><i class="fas fa-eye"></i> Our Vision</h4>
-                        <p>To be the most trusted home maintenance service provider, known for quality workmanship, customer satisfaction, and innovative solutions.</p>
-                    </div>
-
-                    <div class="about-standards">
-                        <h4><i class="fas fa-star"></i> Our Standards</h4>
-                        <ul>
-                            <li><i class="fas fa-check"></i> Certified and trained technicians</li>
-                            <li><i class="fas fa-check"></i> Quality materials and equipment</li>
-                            <li><i class="fas fa-check"></i> Transparent pricing with no hidden costs</li>
-                            <li><i class="fas fa-check"></i> On-time service delivery</li>
-                            <li><i class="fas fa-check"></i> Customer satisfaction guarantee</li>
-                            <li><i class="fas fa-check"></i> Safe and clean work practices</li>
-                        </ul>
+                    <div class="value-box">
+                        <i class="fas fa-eye"></i>
+                        <h4 data-en="Our Vision" data-ar="رؤيتنا">Our Vision</h4>
+                        <p data-en="To be the most trusted home maintenance service provider known for quality workmanship and customer satisfaction." data-ar="أن نكون مزود خدمات الصيانة المنزلية الأكثر ثقة المعروف بجودة العمل ورضا العملاء.">
+                            To be the most trusted home maintenance service provider known for quality workmanship and customer satisfaction.
+                        </p>
                     </div>
                 </div>
 
-                <div class="about-stats" data-aos="fade-left">
+                <div class="about-stats">
                     <div class="stat-card glass-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="stat-number" data-count="1000">0</h3>
-                        <p>Happy Customers</p>
+                        <i class="fas fa-users"></i>
+                        <div class="stat-number" data-target="1000">0</div>
+                        <p data-en="Happy Customers" data-ar="عملاء سعداء">Happy Customers</p>
                     </div>
                     <div class="stat-card glass-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <h3 class="stat-number" data-count="5000">0</h3>
-                        <p>Projects Completed</p>
+                        <i class="fas fa-tools"></i>
+                        <div class="stat-number" data-target="5000">0</div>
+                        <p data-en="Projects Completed" data-ar="مشاريع مكتملة">Projects Completed</p>
                     </div>
                     <div class="stat-card glass-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-award"></i>
-                        </div>
-                        <h3 class="stat-number" data-count="10">0</h3>
-                        <p>Years Experience</p>
+                        <i class="fas fa-award"></i>
+                        <div class="stat-number" data-target="10">0</div>
+                        <p data-en="Years Experience" data-ar="سنوات خبرة">Years Experience</p>
                     </div>
                     <div class="stat-card glass-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <h3 class="stat-number" data-count="50">0</h3>
-                        <p>Expert Technicians</p>
+                        <i class="fas fa-user-tie"></i>
+                        <div class="stat-number" data-target="50">0</div>
+                        <p data-en="Expert Technicians" data-ar="فنيون خبراء">Expert Technicians</p>
                     </div>
                 </div>
             </div>
@@ -408,415 +227,24 @@
     <!-- Gallery Section -->
     <section id="gallery" class="gallery-section">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Our Work Gallery</h2>
-            <p class="section-subtitle" data-aos="fade-up">Quality work that speaks for itself</p>
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Our Work" data-ar="أعمالنا">Our Work</span>
+                <h2 class="section-title" data-en="Project Gallery" data-ar="معرض المشاريع">Project Gallery</h2>
+                <p class="section-subtitle" data-en="Quality work that speaks for itself" data-ar="أعمال عالية الجودة تتحدث عن نفسها">Quality work that speaks for itself</p>
+            </div>
 
-            <div class="gallery-filters" data-aos="fade-up">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="ac">AC Services</button>
-                <button class="filter-btn" data-filter="plumbing">Plumbing</button>
-                <button class="filter-btn" data-filter="electrical">Electrical</button>
-                <button class="filter-btn" data-filter="painting">Painting</button>
-                <button class="filter-btn" data-filter="carpentry">Carpentry</button>
-                <button class="filter-btn" data-filter="kitchen">Kitchen</button>
-                <button class="filter-btn" data-filter="bathroom">Bathroom</button>
-                <button class="filter-btn" data-filter="cleaning">Cleaning</button>
-                <button class="filter-btn" data-filter="general">General Repairs</button>
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all" data-en="All" data-ar="الكل">All</button>
+                <button class="filter-btn" data-filter="ac" data-en="AC Services" data-ar="التكييف">AC Services</button>
+                <button class="filter-btn" data-filter="electrical" data-en="Electrical" data-ar="كهرباء">Electrical</button>
+                <button class="filter-btn" data-filter="plumbing" data-en="Plumbing" data-ar="سباكة">Plumbing</button>
+                <button class="filter-btn" data-filter="painting" data-en="Painting" data-ar="دهانات">Painting</button>
+                <button class="filter-btn" data-filter="kitchen" data-en="Kitchen" data-ar="مطبخ">Kitchen</button>
+                <button class="filter-btn" data-filter="bathroom" data-en="Bathroom" data-ar="حمام">Bathroom</button>
             </div>
 
             <div class="gallery-grid">
-                <!-- AC Services Images -->
-                <div class="gallery-item glass-card" data-category="ac" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&h=400&fit=crop" alt="AC Installation">
-                    <div class="gallery-overlay">
-                        <h4>AC Installation</h4>
-                        <p>Professional cooling system setup</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="ac" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1631545806609-57b6cdaad1e5?w=600&h=400&fit=crop" alt="AC Repair">
-                    <div class="gallery-overlay">
-                        <h4>AC Repair</h4>
-                        <p>Expert repair services</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="ac" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=600&h=400&fit=crop" alt="AC Maintenance">
-                    <div class="gallery-overlay">
-                        <h4>AC Maintenance</h4>
-                        <p>Regular servicing and check-ups</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="ac" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1635274530833-b3c2b8b7b9a5?w=600&h=400&fit=crop" alt="AC Unit Setup">
-                    <div class="gallery-overlay">
-                        <h4>Central AC Installation</h4>
-                        <p>Complete system installation</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="ac" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?w=600&h=400&fit=crop" alt="Split AC Installation">
-                    <div class="gallery-overlay">
-                        <h4>Split AC Setup</h4>
-                        <p>Modern split unit installation</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="ac" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&h=400&fit=crop" alt="AC Gas Refilling">
-                    <div class="gallery-overlay">
-                        <h4>Gas Refilling Service</h4>
-                        <p>Professional refrigerant recharge</p>
-                    </div>
-                </div>
-
-                <!-- Plumbing Images -->
-                <div class="gallery-item glass-card" data-category="plumbing" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600&h=400&fit=crop" alt="Plumbing Work">
-                    <div class="gallery-overlay">
-                        <h4>Plumbing Repair</h4>
-                        <p>Professional pipe and fixture work</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="plumbing" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=600&h=400&fit=crop" alt="Bathroom Plumbing">
-                    <div class="gallery-overlay">
-                        <h4>Bathroom Plumbing</h4>
-                        <p>Complete fixture installation</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="plumbing" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop" alt="Sink Installation">
-                    <div class="gallery-overlay">
-                        <h4>Sink & Faucet Installation</h4>
-                        <p>Modern fixture setup</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="plumbing" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1585128903167-efea6cc22c04?w=600&h=400&fit=crop" alt="Pipe Repair">
-                    <div class="gallery-overlay">
-                        <h4>Pipe Repair & Replacement</h4>
-                        <p>Leak-free solutions</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="plumbing" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&h=400&fit=crop" alt="Water Heater">
-                    <div class="gallery-overlay">
-                        <h4>Water Heater Installation</h4>
-                        <p>Hot water system setup</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="plumbing" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1604328698692-f76ea9498e76?w=600&h=400&fit=crop" alt="Drain Cleaning">
-                    <div class="gallery-overlay">
-                        <h4>Drain Cleaning Service</h4>
-                        <p>Professional unclogging</p>
-                    </div>
-                </div>
-
-                <!-- Electrical Images -->
-                <div class="gallery-item glass-card" data-category="electrical" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=400&fit=crop" alt="Electrical Work">
-                    <div class="gallery-overlay">
-                        <h4>Electrical Installation</h4>
-                        <p>Safe and certified work</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="electrical" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=600&h=400&fit=crop" alt="Electrical Maintenance">
-                    <div class="gallery-overlay">
-                        <h4>Electrical Maintenance</h4>
-                        <p>Regular safety checks</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="electrical" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1621905252472-a037ae5c9ab5?w=600&h=400&fit=crop" alt="Panel Installation">
-                    <div class="gallery-overlay">
-                        <h4>Circuit Panel Upgrade</h4>
-                        <p>Modern electrical panels</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="electrical" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1626788369359-0f5348bd7962?w=600&h=400&fit=crop" alt="Lighting Installation">
-                    <div class="gallery-overlay">
-                        <h4>Lighting Solutions</h4>
-                        <p>Beautiful lighting setup</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="electrical" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1565183928294-7d22f2d93817?w=600&h=400&fit=crop" alt="Socket Installation">
-                    <div class="gallery-overlay">
-                        <h4>Outlet & Switch Work</h4>
-                        <p>Professional wiring services</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="electrical" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop" alt="Generator Installation">
-                    <div class="gallery-overlay">
-                        <h4>Generator Setup</h4>
-                        <p>Backup power solutions</p>
-                    </div>
-                </div>
-
-                <!-- Painting Images -->
-                <div class="gallery-item glass-card" data-category="painting" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&h=400&fit=crop" alt="Interior Painting">
-                    <div class="gallery-overlay">
-                        <h4>Interior Painting</h4>
-                        <p>Beautiful room transformations</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="painting" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600&h=400&fit=crop" alt="Wall Painting">
-                    <div class="gallery-overlay">
-                        <h4>Professional Painting</h4>
-                        <p>Premium quality finishes</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="painting" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1604709177225-055f99402ea3?w=600&h=400&fit=crop" alt="Exterior Painting">
-                    <div class="gallery-overlay">
-                        <h4>Exterior Painting</h4>
-                        <p>Weather-resistant coating</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="painting" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1624395149011-470cf6f6ec02?w=600&h=400&fit=crop" alt="Room Painting">
-                    <div class="gallery-overlay">
-                        <h4>Living Room Painting</h4>
-                        <p>Modern color schemes</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="painting" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&h=400&fit=crop" alt="Bedroom Painting">
-                    <div class="gallery-overlay">
-                        <h4>Bedroom Painting</h4>
-                        <p>Relaxing color palettes</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="painting" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1615971677499-5467cbab01c0?w=600&h=400&fit=crop" alt="Ceiling Painting">
-                    <div class="gallery-overlay">
-                        <h4>Ceiling & Trim Work</h4>
-                        <p>Detailed finishing touches</p>
-                    </div>
-                </div>
-
-                <!-- Carpentry Images -->
-                <div class="gallery-item glass-card" data-category="carpentry" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=400&fit=crop" alt="Carpentry Work">
-                    <div class="gallery-overlay">
-                        <h4>Custom Carpentry</h4>
-                        <p>Quality woodwork solutions</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="carpentry" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1581858726788-75bc0f1a4eac?w=600&h=400&fit=crop" alt="Cabinet Work">
-                    <div class="gallery-overlay">
-                        <h4>Cabinet Installation</h4>
-                        <p>Custom storage solutions</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="carpentry" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1617104678098-de229db51175?w=600&h=400&fit=crop" alt="Door Installation">
-                    <div class="gallery-overlay">
-                        <h4>Door Installation & Repair</h4>
-                        <p>Perfect fitting and finishing</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="carpentry" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop" alt="Furniture Repair">
-                    <div class="gallery-overlay">
-                        <h4>Furniture Repair</h4>
-                        <p>Restore and renew</p>
-                    </div>
-                </div>
-
-                <!-- Kitchen Images -->
-                <div class="gallery-item glass-card" data-category="kitchen" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?w=600&h=400&fit=crop" alt="Kitchen Maintenance">
-                    <div class="gallery-overlay">
-                        <h4>Kitchen Maintenance</h4>
-                        <p>Complete kitchen solutions</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="kitchen" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1556912173-3bb406ef7e77?w=600&h=400&fit=crop" alt="Kitchen Renovation">
-                    <div class="gallery-overlay">
-                        <h4>Kitchen Renovation</h4>
-                        <p>Modern kitchen upgrades</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="kitchen" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=600&h=400&fit=crop" alt="Kitchen Countertop">
-                    <div class="gallery-overlay">
-                        <h4>Countertop Installation</h4>
-                        <p>Premium surface materials</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="kitchen" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1565183928294-7d22f2d93817?w=600&h=400&fit=crop" alt="Kitchen Appliances">
-                    <div class="gallery-overlay">
-                        <h4>Appliance Installation</h4>
-                        <p>Professional setup services</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="kitchen" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=600&h=400&fit=crop" alt="Kitchen Backsplash">
-                    <div class="gallery-overlay">
-                        <h4>Backsplash Installation</h4>
-                        <p>Stylish tile work</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="kitchen" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1588854337221-4cf9fa96061b?w=600&h=400&fit=crop" alt="Kitchen Cabinets">
-                    <div class="gallery-overlay">
-                        <h4>Cabinet Refacing</h4>
-                        <p>Transform your kitchen</p>
-                    </div>
-                </div>
-
-                <!-- Bathroom Images -->
-                <div class="gallery-item glass-card" data-category="bathroom" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&h=400&fit=crop" alt="Bathroom Renovation">
-                    <div class="gallery-overlay">
-                        <h4>Bathroom Renovation</h4>
-                        <p>Luxury bathroom upgrades</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="bathroom" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=600&h=400&fit=crop" alt="Bathroom Maintenance">
-                    <div class="gallery-overlay">
-                        <h4>Bathroom Maintenance</h4>
-                        <p>Expert fixture installation</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="bathroom" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1604709177595-77d180c7e68d?w=600&h=400&fit=crop" alt="Shower Installation">
-                    <div class="gallery-overlay">
-                        <h4>Shower & Tub Installation</h4>
-                        <p>Modern bathroom fixtures</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="bathroom" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&h=400&fit=crop" alt="Vanity Installation">
-                    <div class="gallery-overlay">
-                        <h4>Vanity Installation</h4>
-                        <p>Elegant bathroom furniture</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="bathroom" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=600&h=400&fit=crop" alt="Bathroom Tile">
-                    <div class="gallery-overlay">
-                        <h4>Bathroom Tiling</h4>
-                        <p>Beautiful tile patterns</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="bathroom" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&h=400&fit=crop" alt="Toilet Installation">
-                    <div class="gallery-overlay">
-                        <h4>Toilet & Fixture Replacement</h4>
-                        <p>Modern bathroom upgrades</p>
-                    </div>
-                </div>
-
-                <!-- Cleaning Services Images -->
-                <div class="gallery-item glass-card" data-category="cleaning" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&h=400&fit=crop" alt="Home Cleaning">
-                    <div class="gallery-overlay">
-                        <h4>Professional Cleaning</h4>
-                        <p>Spotless home services</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="cleaning" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?w=600&h=400&fit=crop" alt="Deep Cleaning">
-                    <div class="gallery-overlay">
-                        <h4>Deep Cleaning Service</h4>
-                        <p>Thorough and detailed</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="cleaning" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1563298723-dcfebaa392e3?w=600&h=400&fit=crop" alt="Kitchen Cleaning">
-                    <div class="gallery-overlay">
-                        <h4>Kitchen Cleaning</h4>
-                        <p>Sanitized and sparkling</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="cleaning" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1600320254374-ce2d293c324e?w=600&h=400&fit=crop" alt="Floor Cleaning">
-                    <div class="gallery-overlay">
-                        <h4>Floor Polishing</h4>
-                        <p>Shine and protect</p>
-                    </div>
-                </div>
-
-                <!-- General Repairs Images -->
-                <div class="gallery-item glass-card" data-category="general" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&h=400&fit=crop" alt="Home Repairs">
-                    <div class="gallery-overlay">
-                        <h4>General Home Repairs</h4>
-                        <p>Fix everything efficiently</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="general" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&h=400&fit=crop" alt="Wall Repair">
-                    <div class="gallery-overlay">
-                        <h4>Drywall Repair</h4>
-                        <p>Perfect wall restoration</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="general" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=600&h=400&fit=crop" alt="Window Repair">
-                    <div class="gallery-overlay">
-                        <h4>Window & Door Repair</h4>
-                        <p>Smooth operation restored</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item glass-card" data-category="general" data-aos="zoom-in">
-                    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=600&h=400&fit=crop" alt="Handyman Services">
-                    <div class="gallery-overlay">
-                        <h4>Handyman Services</h4>
-                        <p>Multiple repairs in one visit</p>
-                    </div>
-                </div>
+                <!-- Populated by JavaScript -->
             </div>
         </div>
     </section>
@@ -824,128 +252,81 @@
     <!-- Reviews Section -->
     <section id="reviews" class="reviews-section">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">What Our Customers Say</h2>
-            <p class="section-subtitle" data-aos="fade-up">Real feedback from satisfied customers</p>
-
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Reviews" data-ar="آراء العملاء">Reviews</span>
+                <h2 class="section-title" data-en="What Our Customers Say" data-ar="ماذا يقول عملاؤنا">What Our Customers Say</h2>
+            </div>
             <div class="reviews-grid">
-                <div class="review-card glass-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="reviewer-info">
-                            <h4>Ahmed Mohammed</h4>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">"Excellent AC installation service! The team was professional, punctual, and the work quality exceeded my expectations. Highly recommended!"</p>
-                    <span class="review-service">AC Installation</span>
-                </div>
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </section>
 
-                <div class="review-card glass-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="reviewer-info">
-                            <h4>Fatima Al-Hassan</h4>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">"Very satisfied with the plumbing work done in my home. Quick response, fair pricing, and professional service. Will definitely use again!"</p>
-                    <span class="review-service">Plumbing Services</span>
+    <!-- Why Choose Us -->
+    <section class="why-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Why Choose Us" data-ar="لماذا نحن">Why Choose Us</span>
+                <h2 class="section-title" data-en="Excellence in Every Detail" data-ar="التميز في كل التفاصيل">Excellence in Every Detail</h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-card glass-card tilt-3d">
+                    <i class="fas fa-award"></i>
+                    <h3 data-en="Professional Workmanship" data-ar="حرفية احترافية">Professional Workmanship</h3>
+                    <p data-en="Certified technicians with years of experience delivering quality results." data-ar="فنيون معتمدون بسنوات من الخبرة لتقديم نتائج عالية الجودة.">Certified technicians with years of experience delivering quality results.</p>
                 </div>
-
-                <div class="review-card glass-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="reviewer-info">
-                            <h4>Khalid Ibrahim</h4>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">"Outstanding electrical work! Safety-focused, knowledgeable, and completed everything on time. Great experience from start to finish."</p>
-                    <span class="review-service">Electrical Maintenance</span>
+                <div class="why-card glass-card tilt-3d">
+                    <i class="fas fa-shield-check"></i>
+                    <h3 data-en="Quality Guaranteed" data-ar="جودة مضمونة">Quality Guaranteed</h3>
+                    <p data-en="We stand behind our work with comprehensive service guarantees." data-ar="نضمن عملنا بضمانات خدمة شاملة.">We stand behind our work with comprehensive service guarantees.</p>
                 </div>
-
-                <div class="review-card glass-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="reviewer-info">
-                            <h4>Noura Abdullah</h4>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">"Beautiful painting job! My home looks amazing. The attention to detail and clean work made all the difference. Thank you!"</p>
-                    <span class="review-service">Painting & Decoration</span>
+                <div class="why-card glass-card tilt-3d">
+                    <i class="fas fa-comments"></i>
+                    <h3 data-en="Clear Communication" data-ar="تواصل واضح">Clear Communication</h3>
+                    <p data-en="Transparent pricing and honest communication at every step." data-ar="أسعار شفافة وتواصل صادق في كل خطوة.">Transparent pricing and honest communication at every step.</p>
                 </div>
-
-                <div class="review-card glass-card" data-aos="fade-up" data-aos-delay="500">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="reviewer-info">
-                            <h4>Mohammed Ali</h4>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">"Reliable and trustworthy service. Fixed multiple issues around my home efficiently. Great communication and fair prices."</p>
-                    <span class="review-service">General Repairs</span>
+                <div class="why-card glass-card tilt-3d">
+                    <i class="fas fa-smile"></i>
+                    <h3 data-en="Customer Satisfaction" data-ar="رضا العملاء">Customer Satisfaction</h3>
+                    <p data-en="Your satisfaction is our top priority in every project." data-ar="رضاك هو أولويتنا القصوى في كل مشروع.">Your satisfaction is our top priority in every project.</p>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="review-card glass-card" data-aos="fade-up" data-aos-delay="600">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="reviewer-info">
-                            <h4>Sarah Ahmed</h4>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">"Incredible bathroom renovation! From design to completion, everything was handled professionally. My bathroom is now my favorite room!"</p>
-                    <span class="review-service">Bathroom Maintenance</span>
+    <!-- Service Areas -->
+    <section id="areas" class="areas-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Service Areas" data-ar="مناطق الخدمة">Service Areas</span>
+                <h2 class="section-title" data-en="Serving Across Saudi Arabia" data-ar="نخدم في جميع أنحاء المملكة">Serving Across Saudi Arabia</h2>
+            </div>
+            <div class="areas-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Section -->
+    <section class="emergency-section">
+        <div class="container">
+            <div class="emergency-card glass-card">
+                <div class="emergency-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2 data-en="Emergency Maintenance" data-ar="صيانة طوارئ">Emergency Maintenance</h2>
+                <p data-en="Need urgent repairs? Contact us immediately for emergency maintenance services." data-ar="تحتاج إلى إصلاحات عاجلة؟ اتصل بنا فوراً للحصول على خدمات الصيانة الطارئة.">
+                    Need urgent repairs? Contact us immediately for emergency maintenance services.
+                </p>
+                <div class="emergency-buttons">
+                    <a href="https://wa.me/966597865115" class="btn btn-primary btn-glass">
+                        <i class="fab fa-whatsapp"></i>
+                        <span data-en="WhatsApp Now" data-ar="واتساب الآن">WhatsApp Now</span>
+                    </a>
+                    <a href="tel:+966597865115" class="btn btn-secondary btn-glass">
+                        <i class="fas fa-phone"></i>
+                        <span data-en="Call Now" data-ar="اتصل الآن">Call Now</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -954,75 +335,47 @@
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Contact Us</h2>
-            <p class="section-subtitle" data-aos="fade-up">Get in touch for any inquiries or support</p>
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Contact Us" data-ar="اتصل بنا">Contact Us</span>
+                <h2 class="section-title" data-en="Get In Touch" data-ar="تواصل معنا">Get In Touch</h2>
+            </div>
 
             <div class="contact-wrapper">
-                <div class="contact-form-container glass-card" data-aos="fade-right">
-                    <h3>Send Us a Message</h3>
-                    <form id="contactForm" class="contact-form">
-                        <div class="form-group">
-                            <label for="contactName">Your Name</label>
-                            <input type="text" id="contactName" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contactPhone">Phone Number</label>
-                            <input type="tel" id="contactPhone" name="phone" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contactService">Service Needed</label>
-                            <select id="contactService" name="service" required>
-                                <option value="">Select a service</option>
-                                <option value="AC Installation & Repair">AC Installation & Repair</option>
-                                <option value="Electrical Maintenance">Electrical Maintenance</option>
-                                <option value="Plumbing Services">Plumbing Services</option>
-                                <option value="Painting & Decoration">Painting & Decoration</option>
-                                <option value="Carpentry & Furniture Repair">Carpentry & Furniture Repair</option>
-                                <option value="Home Cleaning">Home Cleaning</option>
-                                <option value="Kitchen Maintenance">Kitchen Maintenance</option>
-                                <option value="Bathroom Maintenance">Bathroom Maintenance</option>
-                                <option value="General Home Repairs">General Home Repairs</option>
-                                <option value="Complete Home Maintenance">Complete Home Maintenance</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="contactMessage">Message</label>
-                            <textarea id="contactMessage" name="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i> Send Message
-                        </button>
-                    </form>
-                </div>
+                <form class="contact-form glass-card" id="contact-form">
+                    <div class="form-group">
+                        <label data-en="Your Name" data-ar="اسمك">Your Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Phone Number" data-ar="رقم الهاتف">Phone Number</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Service Needed" data-ar="الخدمة المطلوبة">Service Needed</label>
+                        <select name="service" required>
+                            <option value="">Select...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Message" data-ar="رسالة">Message</label>
+                        <textarea name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-glass">
+                        <i class="fas fa-paper-plane"></i>
+                        <span data-en="Send Message" data-ar="إرسال رسالة">Send Message</span>
+                    </button>
+                </form>
 
-                <div class="contact-info-container" data-aos="fade-left">
-                    <div class="contact-info-card glass-card">
-                        <h3>Get In Touch</h3>
-                        <div class="contact-info-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <div>
-                                <h4>Location</h4>
-                                <p>Saudi Arabia</p>
-                            </div>
-                        </div>
-                        <div class="contact-info-item">
-                            <i class="fas fa-clock"></i>
-                            <div>
-                                <h4>Working Hours</h4>
-                                <p>24/7 Emergency Service Available</p>
-                                <p>Regular Hours: 8 AM - 8 PM</p>
-                            </div>
-                        </div>
-                        <div class="contact-action-buttons">
-                            <a href="tel:+966597865115" class="contact-action-btn glass-card">
-                                <i class="fas fa-phone"></i>
-                                <span>Call Us</span>
-                            </a>
-                            <a href="https://wa.me/966597865115" class="contact-action-btn glass-card">
-                                <i class="fab fa-whatsapp"></i>
-                                <span>WhatsApp</span>
-                            </a>
-                        </div>
+                <div class="contact-info">
+                    <div class="info-card glass-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h4 data-en="Location" data-ar="الموقع">Location</h4>
+                        <p data-en="Saudi Arabia" data-ar="المملكة العربية السعودية">Saudi Arabia</p>
+                    </div>
+                    <div class="info-card glass-card">
+                        <i class="fas fa-clock"></i>
+                        <h4 data-en="Working Hours" data-ar="ساعات العمل">Working Hours</h4>
+                        <p data-en="24/7 Emergency Service" data-ar="خدمة طوارئ على مدار الساعة">24/7 Emergency Service</p>
                     </div>
                 </div>
             </div>
@@ -1032,121 +385,120 @@
     <!-- Booking Section -->
     <section id="booking" class="booking-section">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Book a Service</h2>
-            <p class="section-subtitle" data-aos="fade-up">Schedule your home maintenance service today</p>
+            <div class="section-header">
+                <span class="section-badge glass-badge" data-en="Book Now" data-ar="احجز الآن">Book Now</span>
+                <h2 class="section-title" data-en="Schedule Your Service" data-ar="حدد موعد خدمتك">Schedule Your Service</h2>
+            </div>
 
-            <div class="booking-form-container glass-card" data-aos="zoom-in">
-                <form id="bookingForm" class="booking-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="bookingName">Full Name *</label>
-                            <input type="text" id="bookingName" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="bookingPhone">Mobile Number *</label>
-                            <input type="tel" id="bookingPhone" name="phone" required>
-                        </div>
-                    </div>
-
+            <form class="booking-form glass-card" id="booking-form">
+                <div class="form-row">
                     <div class="form-group">
-                        <label for="bookingService">Select Service *</label>
-                        <select id="bookingService" name="service" required>
-                            <option value="">Choose a service</option>
-                            <option value="AC Installation & Repair">AC Installation & Repair</option>
-                            <option value="Electrical Maintenance">Electrical Maintenance</option>
-                            <option value="Plumbing Services">Plumbing Services</option>
-                            <option value="Painting & Decoration">Painting & Decoration</option>
-                            <option value="Carpentry & Furniture Repair">Carpentry & Furniture Repair</option>
-                            <option value="Home Cleaning">Home Cleaning</option>
-                            <option value="Kitchen Maintenance">Kitchen Maintenance</option>
-                            <option value="Bathroom Maintenance">Bathroom Maintenance</option>
-                            <option value="General Home Repairs">General Home Repairs</option>
-                            <option value="Complete Home Maintenance">Complete Home Maintenance</option>
+                        <label data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Mobile Number" data-ar="رقم الجوال">Mobile Number</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-en="Select Service" data-ar="اختر الخدمة">Select Service</label>
+                        <select name="service" required>
+                            <option value="">Choose...</option>
                         </select>
                     </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="bookingDate">Preferred Date *</label>
-                            <input type="date" id="bookingDate" name="date" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="bookingTime">Preferred Time *</label>
-                            <input type="time" id="bookingTime" name="time" required>
-                        </div>
-                    </div>
-
                     <div class="form-group">
-                        <label for="bookingAddress">Service Address *</label>
-                        <textarea id="bookingAddress" name="address" rows="3" required placeholder="Enter complete address with area and city"></textarea>
+                        <label data-en="City" data-ar="المدينة">City</label>
+                        <select name="city" required>
+                            <option value="">Select...</option>
+                        </select>
                     </div>
+                </div>
 
+                <div class="form-row">
                     <div class="form-group">
-                        <label for="bookingDetails">Additional Details</label>
-                        <textarea id="bookingDetails" name="details" rows="4" placeholder="Please provide any specific information about your service request"></textarea>
+                        <label data-en="Preferred Date" data-ar="التاريخ المفضل">Preferred Date</label>
+                        <input type="date" name="date" required>
                     </div>
+                    <div class="form-group">
+                        <label data-en="Preferred Time" data-ar="الوقت المفضل">Preferred Time</label>
+                        <input type="time" name="time" required>
+                    </div>
+                </div>
 
-                    <button type="submit" class="btn btn-primary btn-large">
-                        <i class="fas fa-calendar-check"></i> Submit Booking Request
-                    </button>
-                </form>
-            </div>
+                <div class="form-group">
+                    <label data-en="Service Address" data-ar="عنوان الخدمة">Service Address</label>
+                    <textarea name="address" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Additional Details" data-ar="تفاصيل إضافية">Additional Details</label>
+                    <textarea name="details" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-glass btn-lg">
+                    <i class="fas fa-calendar-check"></i>
+                    <span data-en="Submit Booking Request" data-ar="إرسال طلب الحجز">Submit Booking Request</span>
+                </button>
+            </form>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer glass-nav">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3><i class="fas fa-home"></i> Home Maintenance</h3>
-                    <p>Your trusted partner for professional home maintenance services. Quality work, reliable service, affordable pricing.</p>
-                    <div class="footer-social">
-                        <a href="tel:+966597865115" aria-label="Call us"><i class="fas fa-phone"></i></a>
-                        <a href="https://wa.me/966597865115" aria-label="WhatsApp us"><i class="fab fa-whatsapp"></i></a>
+                    <div class="brand">
+                        <i class="fas fa-building"></i>
+                        <h3 data-en="Elite Home Care" data-ar="إيليت لصيانة المنازل">Elite Home Care</h3>
                     </div>
+                    <p data-en="Your trusted partner for professional home maintenance services in Saudi Arabia." data-ar="شريكك الموثوق للخدمات المنزلية الاحترافية في المملكة العربية السعودية.">
+                        Your trusted partner for professional home maintenance services in Saudi Arabia.
+                    </p>
                 </div>
 
                 <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul class="footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#gallery">Our Work</a></li>
+                    <h4 data-en="Quick Links" data-ar="روابط سريعة">Quick Links</h4>
+                    <ul>
+                        <li><a href="#home" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                        <li><a href="#services" data-en="Services" data-ar="الخدمات">Services</a></li>
+                        <li><a href="#about" data-en="About" data-ar="من نحن">About</a></li>
+                        <li><a href="#gallery" data-en="Our Work" data-ar="أعمالنا">Our Work</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
-                    <h4>Services</h4>
-                    <ul class="footer-links">
-                        <li><a href="#services">AC Services</a></li>
-                        <li><a href="#services">Electrical</a></li>
-                        <li><a href="#services">Plumbing</a></li>
-                        <li><a href="#services">Painting</a></li>
+                    <h4 data-en="Services" data-ar="الخدمات">Services</h4>
+                    <ul>
+                        <li><a href="#services" data-en="AC Services" data-ar="التكييف">AC Services</a></li>
+                        <li><a href="#services" data-en="Electrical" data-ar="كهرباء">Electrical</a></li>
+                        <li><a href="#services" data-en="Plumbing" data-ar="سباكة">Plumbing</a></li>
+                        <li><a href="#services" data-en="Painting" data-ar="دهانات">Painting</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
-                    <h4>Contact</h4>
-                    <ul class="footer-links">
-                        <li><a href="#contact">Contact Us</a></li>
-                        <li><a href="#reviews">Reviews</a></li>
-                        <li><a href="#booking">Book Service</a></li>
-                    </ul>
-                    <div class="footer-contact-buttons">
-                        <a href="tel:+966597865115" class="footer-btn"><i class="fas fa-phone"></i></a>
-                        <a href="https://wa.me/966597865115" class="footer-btn"><i class="fab fa-whatsapp"></i></a>
+                    <h4 data-en="Connect" data-ar="تواصل">Connect</h4>
+                    <div class="social-links">
+                        <a href="https://wa.me/966597865115" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="tel:+966597865115" aria-label="Phone"><i class="fas fa-phone"></i></a>
                     </div>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 Home Maintenance Services. All rights reserved.</p>
+                <p>&copy; 2026 Elite Home Care. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">All rights reserved.</span></p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="premium-villa-app.js"></script>
 </body>
 </html>
