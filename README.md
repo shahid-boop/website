@@ -1,38 +1,37 @@
 # 🏠 Elite Home Care — Premium Home Maintenance Website
 
-> **Your Home, Our Responsibility.** Exceptional care for every corner of your home.
+> **A home never felt this cared for — maintained tonight for the one you love.**
 
 🌐 **Live Site:** [homecare.serveirc.com](https://homecare.serveirc.com)
 
 ## 📖 Overview
 
-Elite Home Care is a premium single-page website for a professional home maintenance
-service company serving across Saudi Arabia. The site showcases services, a project
-gallery, customer reviews and service areas — and lets customers book appointments
-online with direct WhatsApp / phone integration.
+Elite Home Care is a premium single-page website (FiabaMia-inspired warm, storytelling
+style) for a professional home maintenance company serving across Saudi Arabia.
+It features an interactive **4-step booking wizard**, live bilingual **EN / عربي**
+switching, a **care packages** section, FAQ, filterable services, review wall and a
+light **optional sound experience** — all in vanilla HTML/CSS/JS.
 
 ## ✨ Features
 
-- 💠 Premium single-page layout with glass-morphism design
-- 🎬 3D & scroll animations (Three.js r128 · GSAP 3.12 · ScrollTrigger)
-- 📱 Fully responsive — desktop, tablet and mobile
-- 🛠️ 10+ maintenance services: AC, Electrical, Plumbing, Painting, Carpentry, Kitchen, Bathroom, Cleaning, General Repairs, Complete Home Maintenance
-- 🖼️ Filterable project gallery
-- ⭐ Customer reviews section
-- 📊 Animated stats counters (customers, projects, experience, technicians)
-- 🗓️ Online booking form (name, phone, service, city, date, time, address)
-- 💚 Floating WhatsApp button + click-to-call (+966 59 786 5115)
-- 🗺️ Service areas across Saudi Arabia
-- 🚨 24/7 emergency maintenance section
+- 🧾 **Booking wizard** — service → city → schedule → contact, with a live summary card that composes a pre-filled WhatsApp message on submit
+- 🌐 **Full bilingual EN/عربي** — one-click toggle, RTL layout, Tajawal font
+- 🎨 12 service cards with category filters + detail modal
+- 💰 3 care packages (First Visit · Family Care · Elite Villa Contract) with WhatsApp quote links
+- 🗓️ How-a-visit-is-made strip, animated stats counters, review wall, service-area chips
+- ❓ FAQ accordion (bilingual)
+- 🚨 Emergency section + floating WhatsApp / Call buttons
+- 🔊 Optional WebAudio sound ticks & chime (off by default, user opt-in)
+- 📱 Fully responsive · reduced-motion friendly · SEO/OG meta + inline SVG favicon
 
 ## 🧰 Tech Stack
 
 | Layer | Tools |
 |---|---|
-| Structure | HTML5 (semantic markup, SEO meta tags) |
-| Styling | CSS3 — `premium-villa.css` |
-| Logic | Vanilla JavaScript — `premium-villa-app.js` |
-| Animation | Three.js r128 · GSAP 3.12 · ScrollTrigger |
+| Structure | HTML5 (semantic, SEO + Open Graph meta) |
+| Styling | CSS3 — glass-morphism, custom properties, responsive grid |
+| Logic | Vanilla JavaScript (no frameworks) |
+| Type | Playfair Display · Inter · Tajawal |
 | Icons | Font Awesome 6.4 |
 | Backend schema | Supabase (PostgreSQL) |
 
@@ -40,9 +39,9 @@ online with direct WhatsApp / phone integration.
 
 ```
 website/
-├── index.html            # Main page (Premium Villa design)
-├── premium-villa.css     # All styling
-├── premium-villa-app.js  # Animations, interactions, form logic
+├── index.html            # Single page — all sections
+├── premium-villa.css     # Design system + layout
+├── premium-villa-app.js  # Data, wizard, bilingual engine, sound
 └── supabase-schema.sql   # Database schema (bookings etc.)
 ```
 
@@ -50,18 +49,20 @@ website/
 
 1. Create a project at [supabase.com](https://supabase.com)
 2. Open the **SQL Editor** and run `supabase-schema.sql`
-3. This creates the required tables for the backend (bookings, users, etc.)
+3. Wire the wizard's submit to insert a booking row (currently sends via WhatsApp)
 
 ## 🚀 Run Locally
 
-No build step needed — plain static files:
+No build step — plain static files. Open `index.html`, or serve:
 
-1. Clone the repo
-2. Open `index.html` in a browser
+```
+npx http-server . -p 8080
+```
 
 ## 🌐 Deployment
 
-The website is live at [homecare.serveirc.com](https://homecare.serveirc.com).
+Live at [homecare.serveirc.com](https://homecare.serveirc.com) — files are served
+from this repository.
 
 ## 📞 Contact
 

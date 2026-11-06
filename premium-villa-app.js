@@ -1,775 +1,381 @@
-// Premium Villa 3D Liquid Glass - Elite Home Care
-// Full Application with Three.js Villa Scene + Bilingual System
+/* ============================================================
+   ELITE HOME CARE — FiabaMia-style app
+   Wizard · Bilingual EN/AR · Sound · Everything interactive
+   ============================================================ */
+const PHONE='966597865115';
+const WA=`https://wa.me/${PHONE}`;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let lang=localStorage.getItem('ehc-lang')||'en';
 
-// ==================== GLOBAL STATE ====================
-let scene, camera, renderer, villa, animationId;
-let currentLang = 'en';
-const PHONE_NUMBER = '966597865115'; // Used only for functional links
-const WHATSAPP_URL = `https://wa.me/${PHONE_NUMBER}`;
-const PHONE_URL = `tel:+${PHONE_NUMBER}`;
+/* ================= DATA ================= */
+const SERVICES=[
+ {id:'ac',icon:'❄️',tEn:'Air Conditioning',tAr:'التكييف',dEn:'Installation, maintenance & refill — split, window, central.',dAr:'تثبيت وصيانة وتعبئة — سبليت ومركزي.',fEn:['Same-day full cooling check-up','Freon refill & tech visit','All brands, original parts','Filter & coil deep care']},
+ {id:'plumbing',icon:'🔧',tEn:'Plumbing',tAr:'السباكة',dEn:'Leak detection, clogs, pumps, mixers & water heaters.',dAr:'كشف تسريبات، سدود، مضخات، خلاطات وسخانات.',fEn:['Pressure & pipe diagnostics','Drain unclogging & jet cleaning','Water heater install / swap','Hidden-leak tracing']},
+ {id:'electrical',icon:'⚡',tEn:'Electrical',tAr:'الكهرباء',dEn:'Licensed wiring, breakers, lighting & socket work.',dAr:'تمديدات وفواصل وإضاءة ودوائر مرخصة.',fEn:['Panel & breaker repair','Full / partial rewiring','Indoor & garden lighting','Safe socket & switch work']},
+ {id:'painting',icon:'🎨',tEn:'Painting',tAr:'الدهانات',dEn:'Interior & exterior painting, finishing and decor.',dAr:'دهان داخلي وخارجي وتشطيبات وديكور.',fEn:['Premium paint brands provided','Furniture masked & covered','Zero-drip edges & trims','Fast, dust-controlled work']},
+ {id:'carpentry',icon:'🪚',tEn:'Carpentry',tAr:'النجارة',dEn:'Custom woodwork, doors, cabinets & furniture repair.',dAr:'أعمال خشبية، أبواب، دواليب وإصلاح أثاث.',fEn:['Custom shelving & wardrobes','Door alignment & locks','Cabinet installs & fixes','Furniture restoration']},
+ {id:'cleaning',icon:'🧹',tEn:'Deep Cleaning',tAr:'التنظيف العميق',dEn:'Full home & villa deep cleaning, facades, floors.',dAr:'تنظيف عميق للمنازل والفلل والواجهات.',fEn:['Sofa & mattress care','Facade & balcony wash','Move-in / move-out clean','Floor polishing & buffing']},
+ {id:'pest',icon:'🐜',tEn:'Pest Control',tAr:'مكافحة الحشرات',dEn:'Safe, certified spraying & prevention programs.',dAr:'رش معتمد آمن وبرامج وقاية.',fEn:['Odorless certified products','Cockroach & ant treatment','Quarterly prevention plans','Pet & child safe zones']},
+ {id:'waterproofing',icon:'🛡️',tEn:'Waterproofing',tAr:'العزل المائي',dEn:'Roof & bathroom waterproofing, leakage sealing.',dAr:'عزل أسطح وحمامات وإيقاف تسرُّب.',fEn:['Roof-base coatings','Wet-area sealing','Leak tracing & fix','Heat-reflective options']},
+ {id:'tiles',icon:'🧱',tEn:'Tiles & Flooring',tAr:'البلاط والأرضيات',dEn:'Tile fixing, grout repair, porcelain & marble care.',dAr:'تركيب بلاط وإصلاح تشققات ورخام.',fEn:['Crack & chip repair','Grout re-finish','Marble polishing','Level & lippage correction']},
+ {id:'gypsum',icon:'🏛️',tEn:'Gypsum Works',tAr:'أعمال الجبس',dEn:'Decor ceilings, cornices & partitions.',dAr:'سقوف ديكور وكورنيشات وقواطع.',fEn:['Modern ceiling designs','Crack-free finishing','Quick partitions','Hidden LED coves']},
+ {id:'garden',icon:'🌿',tEn:'Garden Care',tAr:'العناية بالحدائق',dEn:'Landscaping, irrigation, trimming & palm care.',dAr:'تنسيق حدائق وري وتقليم ورعاية نخيل.',fEn:['Irrigation systems','Lawn & plant trimming','Palm-safe programs','Seasonal planting']},
+ {id:'renovation',icon:'🏠',tEn:'Full Renovation',tAr:'التجديد الكامل',dEn:'Whole-home renovation project management.',dAr:'إدارة تجديد منازل كاملة.',fEn:['One project manager for all','Fixed-price milestones','Weekly photo reports','Design + build support']}
+];
+const CITIES=[['Riyadh','الرياض'],['Jeddah','جدة'],['Dammam','الدمام'],['Khobar','الخبر'],['Makkah','مكة'],['Madinah','المدينة'],['Taif','الطائف'],['Jubail','الجبيل']];
+const GALLERY=[
+ ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700','Villa facade cared','واجهة فيلا نعتني بها'],
+ ['https://images.unsplash.com/photo-1556911220-bff31c812dba?w=700','Kitchen detail','تفاصيل مطبخ'],
+ ['https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=700','Deep clean day','يوم تنظيف عميق'],
+ ['https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=700','Electrical panel work','أعمال لوحة الكهرباء'],
+ ['https://images.unsplash.com/photo-1631545804407-6f0af67a6fc8?w=700','AC full service','صيانة تكييف كاملة'],
+ ['https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=700','Fresh paint finish','تشطيب دهان جديد']
+];
+const REVIEWS=[
+ {nEn:'Mohammed Al-Rashid',nAr:'محمد الراشد',cEn:'Villa · Riyadh',cAr:'فيلا · الرياض',tEn:'They renovated our whole villa. Every day they left the site cleaner than they found it.',tAr:'جددوا فللتنا بالكامل. كل يوم كانوا يتركون المكان أنظف مما وجوه.'},
+ {nEn:'Fatima Al-Saud',nAr:'فاطمة السعود',cEn:'Apartment · Jeddah',cAr:'شقة · جدة',tEn:'Our AC died in July. Voice note at 9pm — someone was at my door before midnight. Cold again.',tAr:'مكيفنا تعطل في يوليو. رسالة صوتية الساعة 9 مساءً — عند الباب قبل منتصف الليل. البرد عاد.'},
+ {nEn:'Khalid Al-Otaibi',nAr:'خالد العتيبي',cEn:'Duplex · Dammam',cAr:'دوبلكس · الدمام',tEn:'The quote on WhatsApp was the same number on the final bill. First time in years. I signed the monthly package on the spot.',tAr:'العرض على واتساب كان نفس رقم الفاتورة النهائية. أول مرة منذ سنوات. وقعت الباقة الشهرية في الحال.'},
+ {nEn:'Noura Al-Qahtani',nAr:'نورة القحطاني',cEn:'Villa · Madinah',cAr:'فيلا · المدينة',tEn:'They fixed the water heater AND found a hidden leak we lived with for two years.',tAr:'صلحوا السخان وتعرفوا على تسريب خفي عشنا معه سنتين.'},
+ {nEn:'Abdullah Al-Hamdan',nAr:'عبدالله الحمدان',cEn:'Compound · Khobar',cAr:'كومباوند · الخبر',tEn:'Silent, on time, shoe covers. My strict father-in-law even approved the end result.',tAr:'هادئون، في الموعد، وأغطية أحذية. حتى حماوي الدقيق الموافق على النتيجة.'},
+ {nEn:'Sara Al-Harbi',nAr:'سارة الحربي',cEn:'3 rentals · Riyadh',cAr:'٣ عقارات · الرياض',tEn:'Three rentals, one number. They flag issues before my tenants even notice.',tAr:'ثلاث عقارات، رقم واحد. يبلغوني عن المشكلات قبل المستأجرين أنفسهم.'}
+];
+const PACKAGES=[
+ {hot:false,emoji:'✦',tEn:'The First Visit',tAr:'الزيارة الأولى',sEn:'One fix, done right',sAr:'إصلاح واحد، على أصله',fe:[['Full diagnosis — price fixed before work','فحص كامل وسعر ثابت قبل العمل'],['Skilled technician, original parts','فني ماهر وقطع أصلية'],['90-day written warranty','ضمان 90 يوماً مكتوب'],['Photos in WhatsApp before/after','صور قبل/بعد على واتساب']]},
+ {hot:true,emoji:'✦✦',tEn:'Family Care',tAr:'رعاية العائلة',sEn:'Monthly peace, four visits',sAr:'راحة شهرية، أربع زيارات',fe:[['4 scheduled visits / month','٤ زيارات مجدولة شهرياً'],['Priority 24/7 emergency line','أولوية خط الطوارئ 24/7'],['Seasonal AC prep & checks','تجهيز وتدقيق التكييف الموسمي'],['Household fixes list handled','قائمة إصلاحات منزلية'],['Discounted extra work','خصم على الأعمال الإضافية']]},
+ {hot:false,emoji:'✦✦✦',tEn:'Elite Villa Contract',tAr:'عقد الفيلا الفاخرة',sEn:'Your home, fully managed',sAr:'منزلك، مُدار بالكامل',fe:[['Dedicated team + manager','فريق ومدير مخصص'],['24/7 engineer-answered line','خط 24/7 يرد عليه مهندس'],['Full coverage: AC · plumbing · electrical · more','تغطية كاملة: تكييف · سباكة · كهرباء وأكثر'],['Garden & exterior care','عناية بالحديقة والواجهات'],['Monthly home health report','تقرير فصلي عن صحة المنزل']]}
+];
+const FAQ=[
+ {qEn:'How fast can you reach me?',qAr:'ما سرعة وصولكم؟',aEn:'Most bookings are same-day or next-day. Emergencies in major cities are usually handled within 60–120 minutes, 24/7.',aAr:'معظم الحجوزات في نفس اليوم أو اليوم التالي. الطوارئ في المدن الرئيسية عادة خلال 60–120 دقيقة، على مدار الساعة.'},
+ {qEn:'Which cities do you cover?',qAr:'ما المدن التي تغطونها؟',aEn:'Riyadh, Jeddah, Dammam, Khobar, Makkah, Madinah, Taif and Jubail — plus nearby areas on request.',aAr:'الرياض، جدة، الدمام، الخبر، مكة، المدينة، الطائف والجبيل — بالإضافة إلى المناطق المجاورة عند الطلب.'},
+ {qEn:'Do you give a warranty?',qAr:'هل تقدمون ضماناً؟',aEn:'Yes — 90 days written warranty on every repair. If the same problem returns, we come back free.',aAr:'نعم — ضمان 90 يوماً مكتوب على كل إصلاح. إن عاد نفس العطل، نعود مجاناً.'},
+ {qEn:'How much does a visit cost?',qAr:'كم تكلفة الزيارة؟',aEn:'Prices depend on the job, but always fixed with you before we start — the quote you approve is the bill you pay. No hidden fees.',aAr:'تختلف الأسعار حسب العمل، لكنها دائماً ثابتة معك قبل البدء — العرض الذي توافق عليه هو الفاتورة التي تدفعها. لا رسوم خفية.'},
+ {qEn:'Are your technicians certified?',qAr:'هل الفنيون معتمدون؟',aEn:'Every technician is licensed, background-checked and trained in-house. Electrical work is done by government-certified electricians only.',aAr:'كل فني مرخص ومدرَّب لدينا. والكهرباء يكون فقط على يد كهربائيين معتمدين من الجهات المختصة.'},
+ {qEn:'Can I schedule regular monthly care?',qAr:'هل يمكن جدولة رعاية شهرية منتظمة؟',aEn:'Absolutely — that\'s the "Family Care" package. Four planned visits a month plus a 24/7 emergency line with priority response.',aAr:'بالتأكيد — تلك هي باقة "رعاية العائلة". أربع زيارات مجدولة شهرياً مع خط طوارئ 24/7 وأولوية استجابة.'}
+];
 
-// ==================== BILINGUAL CONTENT ====================
-const content = {
-    // Services Data
-    services: [
-        {
-            id: 'ac',
-            icon: '❄️',
-            titleEn: 'Air Conditioning Services',
-            titleAr: 'خدمات التكييف',
-            descEn: 'Expert AC installation, maintenance and repair for all cooling systems',
-            descAr: 'تركيب وصيانة وإصلاح أنظمة التكييف بخبرة عالية',
-            category: 'cooling'
-        },
-        {
-            id: 'plumbing',
-            icon: '🚰',
-            titleEn: 'Plumbing Solutions',
-            titleAr: 'حلول السباكة',
-            descEn: 'Professional plumbing repairs, installations and leak detection',
-            descAr: 'إصلاحات وتركيب السباكة وكشف التسربات باحترافية',
-            category: 'plumbing'
-        },
-        {
-            id: 'electrical',
-            icon: '⚡',
-            titleEn: 'Electrical Works',
-            titleAr: 'الأعمال الكهربائية',
-            descEn: 'Licensed electricians for wiring, repairs and installations',
-            descAr: 'كهربائيون معتمدون للأسلاك والإصلاحات والتركيبات',
-            category: 'electrical'
-        },
-        {
-            id: 'painting',
-            icon: '🎨',
-            titleEn: 'Painting & Decoration',
-            titleAr: 'الدهان والديكور',
-            descEn: 'Premium painting services with quality finishes and decoration',
-            descAr: 'خدمات دهان فاخرة مع تشطيبات عالية الجودة وديكور',
-            category: 'painting'
-        },
-        {
-            id: 'carpentry',
-            icon: '🔨',
-            titleEn: 'Carpentry Services',
-            titleAr: 'خدمات النجارة',
-            descEn: 'Custom woodwork, furniture repair and carpentry solutions',
-            descAr: 'نجارة مخصصة وإصلاح الأثاث وحلول النجارة',
-            category: 'carpentry'
-        },
-        {
-            id: 'cleaning',
-            icon: '✨',
-            titleEn: 'Deep Cleaning',
-            titleAr: 'التنظيف العميق',
-            descEn: 'Thorough deep cleaning services for homes and villas',
-            descAr: 'خدمات التنظيف العميق الشامل للمنازل والفلل',
-            category: 'cleaning'
-        },
-        {
-            id: 'pest',
-            icon: '🦟',
-            titleEn: 'Pest Control',
-            titleAr: 'مكافحة الحشرات',
-            descEn: 'Safe and effective pest control and prevention services',
-            descAr: 'خدمات مكافحة الحشرات الآمنة والفعالة',
-            category: 'pest'
-        },
-        {
-            id: 'waterproofing',
-            icon: '💧',
-            titleEn: 'Waterproofing',
-            titleAr: 'العزل المائي',
-            descEn: 'Professional waterproofing for roofs and surfaces',
-            descAr: 'عزل مائي احترافي للأسطح والجدران',
-            category: 'waterproofing'
-        },
-        {
-            id: 'tiles',
-            icon: '⬜',
-            titleEn: 'Tiles & Flooring',
-            titleAr: 'البلاط والأرضيات',
-            descEn: 'Expert tile installation, repair and flooring services',
-            descAr: 'تركيب وإصلاح البلاط والأرضيات بخبرة عالية',
-            category: 'tiles'
-        },
-        {
-            id: 'gypsum',
-            icon: '🏗️',
-            titleEn: 'Gypsum Works',
-            titleAr: 'أعمال الجبس',
-            descEn: 'Decorative gypsum ceilings and partition walls',
-            descAr: 'أسقف جبسية ديكورية وجدران فاصلة',
-            category: 'gypsum'
-        },
-        {
-            id: 'garden',
-            icon: '🌳',
-            titleEn: 'Garden Maintenance',
-            titleAr: 'صيانة الحدائق',
-            descEn: 'Professional landscaping and garden care services',
-            descAr: 'خدمات تنسيق ورعاية الحدائق المحترفة',
-            category: 'garden'
-        },
-        {
-            id: 'renovation',
-            icon: '🏡',
-            titleEn: 'Complete Renovation',
-            titleAr: 'التجديد الكامل',
-            descEn: 'Full home and villa renovation project management',
-            descAr: 'إدارة مشاريع تجديد المنازل والفلل الكاملة',
-            category: 'renovation'
-        }
-    ],
-
-    // Gallery Items
-    gallery: [
-        { category: 'all', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
-        { category: 'plumbing', image: 'https://images.unsplash.com/photo-1581858726788-75bc0f1a4eac?w=600' },
-        { category: 'electrical', image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600' },
-        { category: 'painting', image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600' },
-        { category: 'cooling', image: 'https://images.unsplash.com/photo-1631545804407-6f0af67a6fc8?w=600' },
-        { category: 'cleaning', image: 'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?w=600' },
-        { category: 'carpentry', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600' },
-        { category: 'renovation', image: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600' }
-    ],
-
-    // Reviews
-    reviews: [
-        {
-            nameEn: 'Mohammed Al-Rashid',
-            nameAr: 'محمد الراشد',
-            textEn: 'Exceptional service! They renovated our entire villa with outstanding attention to detail.',
-            textAr: 'خدمة استثنائية! جددوا فيلتنا بالكامل باهتمام رائع بالتفاصيل.',
-            rating: 5
-        },
-        {
-            nameEn: 'Fatima Al-Saud',
-            nameAr: 'فاطمة آل سعود',
-            textEn: 'Professional team, excellent quality work. Highly recommended for luxury properties.',
-            textAr: 'فريق محترف، جودة عمل ممتازة. موصى به بشدة للعقارات الفاخرة.',
-            rating: 5
-        },
-        {
-            nameEn: 'Abdullah Al-Qahtani',
-            nameAr: 'عبدالله القحطاني',
-            textEn: 'Fast emergency response and perfect repairs. Very satisfied with their service.',
-            textAr: 'استجابة طوارئ سريعة وإصلاحات مثالية. راضٍ جداً عن خدمتهم.',
-            rating: 5
-        },
-        {
-            nameEn: 'Sara Al-Mutairi',
-            nameAr: 'سارة المطيري',
-            textEn: 'Outstanding craftsmanship! They transformed our home beautifully.',
-            textAr: 'حرفية متميزة! حولوا منزلنا بشكل جميل للغاية.',
-            rating: 5
-        }
-    ],
-
-    // Service Areas
-    areas: [
-        { nameEn: 'Riyadh', nameAr: 'الرياض', icon: '🏛️' },
-        { nameEn: 'Jeddah', nameAr: 'جدة', icon: '🌊' },
-        { nameEn: 'Dammam', nameAr: 'الدمام', icon: '🏢' },
-        { nameEn: 'Khobar', nameAr: 'الخبر', icon: '🏙️' },
-        { nameEn: 'Makkah', nameAr: 'مكة', icon: '🕋' },
-        { nameEn: 'Madinah', nameAr: 'المدينة', icon: '🕌' },
-        { nameEn: 'Taif', nameAr: 'الطائف', icon: '⛰️' },
-        { nameEn: 'Jubail', nameAr: 'الجبيل', icon: '🏭' }
-    ]
-};
-
-// ==================== THREE.JS VILLA SCENE ====================
-function initVillaScene() {
-    const canvas = document.getElementById('villa-canvas');
-    if (!canvas) return;
-
-    // Scene setup
-    scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x091321, 10, 50);
-
-    // Camera
-    camera = new THREE.PerspectiveCamera(
-        50,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-    );
-    camera.position.set(0, 3, 15);
-    camera.lookAt(0, 2, 0);
-
-    // Renderer
-    renderer = new THREE.WebGLRenderer({
-        canvas: canvas,
-        antialias: true,
-        alpha: true
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
-
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-    scene.add(ambientLight);
-
-    const moonLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    moonLight.position.set(10, 20, 10);
-    moonLight.castShadow = true;
-    moonLight.shadow.mapSize.width = 2048;
-    moonLight.shadow.mapSize.height = 2048;
-    moonLight.shadow.camera.near = 0.5;
-    moonLight.shadow.camera.far = 50;
-    scene.add(moonLight);
-
-    const goldLight = new THREE.PointLight(0xC9A66B, 1, 20);
-    goldLight.position.set(-5, 5, 5);
-    scene.add(goldLight);
-
-    const accentLight = new THREE.PointLight(0xE3C99B, 0.6, 15);
-    accentLight.position.set(5, 3, -5);
-    scene.add(accentLight);
-
-    // Build Luxury Villa
-    buildLuxuryVilla();
-
-    // Ground
-    const groundGeometry = new THREE.PlaneGeometry(100, 100);
-    const groundMaterial = new THREE.MeshStandardMaterial({
-        color: 0x0a1628,
-        roughness: 0.8,
-        metalness: 0.2
-    });
-    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-    ground.rotation.x = -Math.PI / 2;
-    ground.receiveShadow = true;
-    scene.add(ground);
-
-    // Stars
-    createStars();
-
-    // Animation loop
-    animate();
-
-    // Handle resize
-    window.addEventListener('resize', onWindowResize);
-
-    // Mouse parallax
-    document.addEventListener('mousemove', onMouseMove);
+/* ================= SOUND ================= */
+let audioOn=false, actx=null;
+function beep(freq=660,dur=.07,type='sine',vol=.045){
+  if(!audioOn) return;
+  try{
+    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(),g=actx.createGain();
+    o.type=type;o.frequency.value=freq;g.gain.value=vol;
+    o.connect(g);g.connect(actx.destination);
+    g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+dur);
+    o.start();o.stop(actx.currentTime+dur);
+  }catch(e){}
 }
-
-function buildLuxuryVilla() {
-    villa = new THREE.Group();
-
-    // Main structure (Cream/Ivory colored)
-    const mainStructure = new THREE.Mesh(
-        new THREE.BoxGeometry(8, 4, 6),
-        new THREE.MeshStandardMaterial({
-            color: 0xF4F1E9,
-            roughness: 0.7,
-            metalness: 0.1
-        })
-    );
-    mainStructure.position.y = 2;
-    mainStructure.castShadow = true;
-    mainStructure.receiveShadow = true;
-    villa.add(mainStructure);
-
-    // Roof (Dark Navy)
-    const roof = new THREE.Mesh(
-        new THREE.ConeGeometry(5, 2, 4),
-        new THREE.MeshStandardMaterial({
-            color: 0x101C32,
-            roughness: 0.4,
-            metalness: 0.3
-        })
-    );
-    roof.position.y = 5;
-    roof.rotation.y = Math.PI / 4;
-    roof.castShadow = true;
-    villa.add(roof);
-
-    // Entrance (Gold accent)
-    const entrance = new THREE.Mesh(
-        new THREE.BoxGeometry(2, 3, 0.2),
-        new THREE.MeshStandardMaterial({
-            color: 0xC9A66B,
-            roughness: 0.3,
-            metalness: 0.7,
-            emissive: 0xC9A66B,
-            emissiveIntensity: 0.2
-        })
-    );
-    entrance.position.set(0, 1.5, 3.1);
-    entrance.castShadow = true;
-    villa.add(entrance);
-
-    // Windows with glass (multiple windows)
-    const windowPositions = [
-        [-2, 2, 3.1], [2, 2, 3.1],  // Front windows
-        [-3.1, 2, 0], [3.1, 2, 0],  // Side windows
-    ];
-
-    windowPositions.forEach(pos => {
-        const windowFrame = new THREE.Mesh(
-            new THREE.BoxGeometry(1.2, 1.5, 0.1),
-            new THREE.MeshStandardMaterial({
-                color: 0x333333,
-                roughness: 0.2,
-                metalness: 0.8
-            })
-        );
-        windowFrame.position.set(...pos);
-        villa.add(windowFrame);
-
-        const glass = new THREE.Mesh(
-            new THREE.BoxGeometry(1, 1.3, 0.05),
-            new THREE.MeshPhysicalMaterial({
-                color: 0x88ccff,
-                transparent: true,
-                opacity: 0.3,
-                roughness: 0.1,
-                metalness: 0.1,
-                transmission: 0.9,
-                thickness: 0.5
-            })
-        );
-        glass.position.set(...pos);
-        villa.add(glass);
-    });
-
-    // Decorative columns (Gold)
-    [-3, 3].forEach(x => {
-        const column = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.3, 0.3, 4, 8),
-            new THREE.MeshStandardMaterial({
-                color: 0xC9A66B,
-                roughness: 0.3,
-                metalness: 0.7
-            })
-        );
-        column.position.set(x, 2, 3);
-        column.castShadow = true;
-        villa.add(column);
-    });
-
-    // Side wing
-    const sideWing = new THREE.Mesh(
-        new THREE.BoxGeometry(4, 3, 4),
-        new THREE.MeshStandardMaterial({
-            color: 0xF4F1E9,
-            roughness: 0.7,
-            metalness: 0.1
-        })
-    );
-    sideWing.position.set(6, 1.5, 0);
-    sideWing.castShadow = true;
-    villa.add(sideWing);
-
-    // Side wing roof
-    const sideRoof = new THREE.Mesh(
-        new THREE.ConeGeometry(3, 1.5, 4),
-        new THREE.MeshStandardMaterial({
-            color: 0x101C32,
-            roughness: 0.4,
-            metalness: 0.3
-        })
-    );
-    sideRoof.position.set(6, 3.75, 0);
-    sideRoof.rotation.y = Math.PI / 4;
-    sideRoof.castShadow = true;
-    villa.add(sideRoof);
-
-    scene.add(villa);
-}
-
-function createStars() {
-    const starGeometry = new THREE.BufferGeometry();
-    const starMaterial = new THREE.PointsMaterial({
-        color: 0xffffff,
-        size: 0.1,
-        transparent: true,
-        opacity: 0.8
-    });
-
-    const starVertices = [];
-    for (let i = 0; i < 500; i++) {
-        const x = (Math.random() - 0.5) * 100;
-        const y = Math.random() * 50 + 10;
-        const z = (Math.random() - 0.5) * 100;
-        starVertices.push(x, y, z);
-    }
-
-    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-    const stars = new THREE.Points(starGeometry, starMaterial);
-    scene.add(stars);
-}
-
-function animate() {
-    animationId = requestAnimationFrame(animate);
-
-    // Gentle villa rotation
-    if (villa) {
-        villa.rotation.y += 0.001;
-    }
-
-    renderer.render(scene, camera);
-}
-
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-function onMouseMove(event) {
-    const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    if (camera) {
-        camera.position.x = mouseX * 2;
-        camera.position.y = 3 + mouseY * 2;
-        camera.lookAt(0, 2, 0);
-    }
-}
-
-// ==================== LANGUAGE SYSTEM ====================
-function detectLanguage() {
-    const browserLang = navigator.language || navigator.userLanguage;
-    return browserLang.startsWith('ar') ? 'ar' : 'en';
-}
-
-function switchLanguage(lang) {
-    currentLang = lang;
-    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-    document.documentElement.setAttribute('lang', lang);
-
-    // Update all translatable elements
-    document.querySelectorAll('[data-en]').forEach(el => {
-        const text = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ar');
-        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-            el.placeholder = text;
-        } else {
-            el.textContent = text;
-        }
-    });
-
-    // Update lang toggle button
-    const langBtn = document.querySelector('.lang-toggle');
-    if (langBtn) {
-        langBtn.querySelector('span').textContent = lang === 'en' ? 'العربية' : 'English';
-    }
-
-    // Re-render dynamic content
-    renderServices();
-    renderGallery();
-    renderReviews();
-    renderAreas();
-}
-
-// ==================== DYNAMIC CONTENT RENDERING ====================
-function renderServices() {
-    const grid = document.querySelector('.services-grid');
-    if (!grid) return;
-
-    grid.innerHTML = content.services.map(service => `
-        <div class="service-card glass-card tilt-3d" data-category="${service.category}">
-            <div class="service-img">
-                <img src="https://images.unsplash.com/photo-1581858726788-75bc0f1a4eac?w=600" alt="${currentLang === 'en' ? service.titleEn : service.titleAr}">
-            </div>
-            <div class="service-content">
-                <i>${service.icon}</i>
-                <h3>${currentLang === 'en' ? service.titleEn : service.titleAr}</h3>
-                <p>${currentLang === 'en' ? service.descEn : service.descAr}</p>
-                <a href="#booking" class="btn btn-primary">
-                    <i class="fas fa-calendar-check"></i>
-                    <span data-en="Book Now" data-ar="احجز الآن">${currentLang === 'en' ? 'Book Now' : 'احجز الآن'}</span>
-                </a>
-            </div>
-        </div>
-    `).join('');
-
-    // Also render quick services
-    const quickGrid = document.querySelector('.quick-grid');
-    if (quickGrid) {
-        quickGrid.innerHTML = content.services.slice(0, 4).map(service => `
-            <div class="quick-card glass-card tilt-3d">
-                <div class="quick-icon">${service.icon}</div>
-                <h3>${currentLang === 'en' ? service.titleEn : service.titleAr}</h3>
-                <p>${currentLang === 'en' ? service.descEn : service.descAr}</p>
-            </div>
-        `).join('');
-    }
-
-    initTilt();
-}
-
-function renderGallery() {
-    const grid = document.querySelector('.gallery-grid');
-    if (!grid) return;
-
-    grid.innerHTML = content.gallery.map(item => `
-        <div class="gallery-item glass-card" data-category="${item.category}">
-            <img src="${item.image}" alt="Project">
-        </div>
-    `).join('');
-}
-
-function renderReviews() {
-    const grid = document.querySelector('.reviews-grid');
-    if (!grid) return;
-
-    grid.innerHTML = content.reviews.map(review => `
-        <div class="review-card glass-card">
-            <div class="review-header">
-                <div class="reviewer-avatar">👤</div>
-                <div>
-                    <h4>${currentLang === 'en' ? review.nameEn : review.nameAr}</h4>
-                    <div class="review-stars">${'⭐'.repeat(review.rating)}</div>
-                </div>
-            </div>
-            <p>${currentLang === 'en' ? review.textEn : review.textAr}</p>
-        </div>
-    `).join('');
-}
-
-function renderAreas() {
-    const grid = document.querySelector('.areas-grid');
-    if (!grid) return;
-
-    grid.innerHTML = content.areas.map(area => `
-        <div class="area-card glass-card tilt-3d">
-            <i>${area.icon}</i>
-            <h3>${currentLang === 'en' ? area.nameEn : area.nameAr}</h3>
-        </div>
-    `).join('');
-
-    initTilt();
-}
-
-// ==================== 3D TILT EFFECT ====================
-function initTilt() {
-    const cards = document.querySelectorAll('.tilt-3d');
-
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateX = (y - centerY) / 10;
-            const rotateY = (centerX - x) / 10;
-
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-        });
-    });
-}
-
-// ==================== GALLERY FILTERS ====================
-function initGalleryFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const filter = btn.getAttribute('data-filter');
-
-            // Update active state
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            // Filter items
-            galleryItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                if (filter === 'all' || category === filter) {
-                    item.classList.remove('hidden');
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-        });
-    });
-}
-
-// ==================== FORM HANDLING ====================
-function initForms() {
-    // Contact Form
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(contactForm);
-            const message = `
-New Contact Request:
-Name: ${formData.get('name')}
-Email: ${formData.get('email')}
-Phone: ${formData.get('phone')}
-Service: ${formData.get('service')}
-Message: ${formData.get('message')}
-            `.trim();
-
-            window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(message)}`, '_blank');
-            contactForm.reset();
-        });
-    }
-
-    // Booking Form
-    const bookingForm = document.getElementById('booking-form');
-    if (bookingForm) {
-        bookingForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(bookingForm);
-            const message = `
-New Booking Request:
-Name: ${formData.get('name')}
-Phone: ${formData.get('phone')}
-Service: ${formData.get('service')}
-Property Type: ${formData.get('property')}
-Area: ${formData.get('area')}
-Date: ${formData.get('date')}
-Time: ${formData.get('time')}
-Details: ${formData.get('details')}
-            `.trim();
-
-            window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(message)}`, '_blank');
-            bookingForm.reset();
-        });
-    }
-}
-
-// ==================== SCROLL ANIMATIONS ====================
-function initScrollAnimations() {
-    // Check if GSAP and ScrollTrigger are available
-    if (typeof gsap === 'undefined') {
-        console.warn('GSAP not loaded');
-        return;
-    }
-
-    // Register ScrollTrigger
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Fade in sections
-    gsap.utils.toArray('section').forEach(section => {
-        gsap.from(section, {
-            opacity: 0,
-            y: 50,
-            duration: 1,
-            scrollTrigger: {
-                trigger: section,
-                start: 'top 80%',
-                end: 'top 20%',
-                toggleActions: 'play none none reverse'
-            }
-        });
-    });
-
-    // Cards animation
-    gsap.utils.toArray('.glass-card').forEach(card => {
-        gsap.from(card, {
-            opacity: 0,
-            y: 30,
-            duration: 0.8,
-            scrollTrigger: {
-                trigger: card,
-                start: 'top 90%',
-                toggleActions: 'play none none reverse'
-            }
-        });
-    });
-}
-
-// ==================== NAVIGATION ====================
-function initNavigation() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-
-        // Close menu on link click
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
-        });
-    }
-
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
-
-// ==================== INITIALIZATION ====================
-document.addEventListener('DOMContentLoaded', () => {
-    // Hide loading screen
-    setTimeout(() => {
-        const loadingScreen = document.querySelector('.loading-screen');
-        if (loadingScreen) {
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => loadingScreen.style.display = 'none', 500);
-        }
-    }, 2000);
-
-    // Detect and set initial language
-    currentLang = detectLanguage();
-    switchLanguage(currentLang);
-
-    // Language toggle
-    const langToggle = document.querySelector('.lang-toggle');
-    if (langToggle) {
-        langToggle.addEventListener('click', () => {
-            switchLanguage(currentLang === 'en' ? 'ar' : 'en');
-        });
-    }
-
-    // Initialize Three.js scene
-    initVillaScene();
-
-    // Initialize all features
-    renderServices();
-    renderGallery();
-    renderReviews();
-    renderAreas();
-    initGalleryFilters();
-    initForms();
-    initNavigation();
-    initTilt();
-
-    // Initialize scroll animations (after GSAP loads)
-    if (typeof gsap !== 'undefined') {
-        initScrollAnimations();
-    }
+function chime(){beep(523,.12);setTimeout(()=>beep(659,.14),110);setTimeout(()=>beep(784,.22),240);}
+$('#soundbar').addEventListener('click',()=>{
+  audioOn=!audioOn;
+  $('#soundbar').classList.toggle('on',audioOn);
+  $('#soundTxt').textContent=audioOn?(lang==='ar'?'الصوت يعمل':'Sound on'):(lang==='ar'?'استماع بالصوت':'Listen with sound');
+  if(audioOn) chime();
 });
 
-// ==================== CLEANUP ====================
-window.addEventListener('beforeunload', () => {
-    if (animationId) {
-        cancelAnimationFrame(animationId);
-    }
-    if (renderer) {
-        renderer.dispose();
-    }
+/* ================= RENDER ================= */
+const FILTERS=[['all','All','الكل'],['ac','AC','التكييف'],['plumbing','Plumbing','السباكة'],['electrical','Electrical','الكهرباء'],['finishing','Finishing','التشطيب'],['clean','Clean','النظافة'],['renov','Renovation','التجديد']];
+const svcCat=s=>({ac:'ac',plumbing:'plumbing',electrical:'electrical',painting:'finishing',carpentry:'finishing',tiles:'finishing',gypsum:'finishing',cleaning:'clean',pest:'clean',garden:'clean',waterproofing:'renov',renovation:'renov'})[s.id];
+
+function renderAll(){
+  /* filters */
+  const fWrap=$('#svcFilters'); fWrap.innerHTML='';
+  FILTERS.forEach(([id,en,ar])=>{
+    const b=document.createElement('button');
+    b.className='fchip'+(id==='all'?' active':'');
+    b.dataset.en=en;b.dataset.ar=ar;
+    b.textContent=lang==='ar'?ar:en;
+    b.onclick=()=>{
+      beep(600,.05);
+      $$('.fchip').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      $$('#svcGrid .svc-card').forEach(c=>{
+        c.style.display=(id==='all'||c.dataset.cat===id)?'':'none';
+      });
+    };
+    fWrap.appendChild(b);
+  });
+  /* services */
+  const g=$('#svcGrid'); g.innerHTML='';
+  SERVICES.forEach(s=>{
+    const d=document.createElement('div');
+    d.className='svc-card';d.dataset.cat=svcCat(s);
+    d.innerHTML=`<div class="svc-ic">${s.icon}</div><h4>${lang==='ar'?s.tAr:s.tEn}</h4><p>${lang==='ar'?s.dAr:s.dEn}</p>
+      <span class="svc-more">${lang==='ar'?'ماذا يشمل':"What's included"} →</span>`;
+    d.onclick=()=>openService(s);
+    g.appendChild(d);
+  });
+  /* wizard tiles — services */
+  const st=$('#svcTiles'); st.innerHTML='';
+  SERVICES.forEach(s=>{
+    const b=document.createElement('button');b.className='tile';b.dataset.id=s.id;
+    b.innerHTML=`${s.icon}<br>${lang==='ar'?s.tAr:s.tEn}`;
+    b.onclick=()=>{
+      beep(720,.08);
+      st.querySelectorAll('.tile').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel'); wiz.svc=s.id; updateSummary();
+    };
+    st.appendChild(b);
+  });
+  /* wizard tiles — cities */
+  const ct=$('#cityTiles'); ct.innerHTML='';
+  CITIES.forEach(([en,ar])=>{
+    const b=document.createElement('button');b.className='tile';b.dataset.city=en;
+    b.innerHTML=`📍<br>${lang==='ar'?ar:en}`;
+    b.onclick=()=>{
+      beep(720,.08);
+      ct.querySelectorAll('.tile').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel'); wiz.city=en; updateSummary();
+    };
+    ct.appendChild(b);
+  });
+  /* restore selection marks */
+  st.querySelectorAll('.tile').forEach(t=>{if(t.dataset.id===wiz.svc)t.classList.add('sel');});
+  ct.querySelectorAll('.tile').forEach(t=>{if(t.dataset.city===wiz.city)t.classList.add('sel');});
+  /* gallery */
+  const gg=$('#galGrid'); gg.innerHTML='';
+  GALLERY.forEach(([img,tEn,tAr])=>{
+    const d=document.createElement('div');d.className='svc-card';d.style.padding='0';d.style.overflow='hidden';
+    d.innerHTML=`<img loading="lazy" src="${img}" alt="${tEn}" style="height:220px;width:100%;object-fit:cover">
+      <div style="padding:16px 20px"><b style="font-family:var(--serif)">${lang==='ar'?tAr:tEn}</b></div>`;
+    gg.appendChild(d);
+  });
+  /* reviews */
+  const rg=$('#revGrid'); rg.innerHTML='';
+  REVIEWS.forEach(r=>{
+    const d=document.createElement('div');d.className='rev-card';
+    const initial=(lang==='ar'?r.nAr:r.nEn).trim()[0];
+    d.innerHTML=`<div class="stars">★★★★★</div><q>${lang==='ar'?r.tAr:r.tEn}</q>
+      <div class="rev-who"><span class="rev-av">${initial}</span>
+      <span><b>${lang==='ar'?r.nAr:r.nEn}</b><small>${lang==='ar'?r.cAr:r.cEn}</small></span></div>`;
+    rg.appendChild(d);
+  });
+  /* packages */
+  const pg=$('#pkgGrid'); pg.innerHTML='';
+  PACKAGES.forEach(p=>{
+    const d=document.createElement('div');d.className='pkg'+(p.hot?' hot':'');
+    const msg=encodeURIComponent(lang==='ar'
+      ?`مرحباً، أرغب في باقة «${p.tAr}» من إيليت هوم كير.`
+      :`Hello! I'd like the "${p.tEn}" package from Elite Home Care.`);
+    d.innerHTML=`${p.hot?`<span class="tag">${lang==='ar'?'الأكثر طلباً':'Most loved'}</span>`:''}
+      <div class="pi">${p.emoji}</div><h4>${lang==='ar'?p.tAr:p.tEn}</h4>
+      <div class="pkg-sub">${lang==='ar'?p.sAr:p.sEn}</div>
+      <ul>${p.fe.map(f=>`<li>${lang==='ar'?f[1]:f[0]}</li>`).join('')}</ul>
+      <a class="btn ${p.hot?'btn-gold':'btn-ghost'}" target="_blank" rel="noopener" href="${WA}?text=${msg}">
+      <i class="fab fa-whatsapp"></i>&nbsp;${lang==='ar'?'اطلب عرض السعر':'Get this quote'}</a>`;
+    pg.appendChild(d);
+  });
+  /* areas */
+  const ag=$('#areaGrid'); ag.innerHTML='';
+  CITIES.forEach(([en,ar])=>{
+    const s=document.createElement('span');s.className='area-chip';
+    s.innerHTML=`<i>◆</i> ${lang==='ar'?ar:en}`;ag.appendChild(s);
+  });
+  /* faq */
+  const fq=$('#faqList'); fq.innerHTML='';
+  FAQ.forEach(f=>{
+    const d=document.createElement('details');d.className='faq';
+    d.innerHTML=`<summary>${lang==='ar'?f.qAr:f.qEn}<span class="pm">+</span></summary>
+      <div class="fa-a">${lang==='ar'?f.aAr:f.aEn}</div>`;
+    d.querySelector('summary').addEventListener('click',()=>beep(600,.05));
+    fq.appendChild(d);
+  });
+  applyLangTexts();
+}
+
+/* ================= WIZARD ================= */
+const wiz={svc:null,city:null,date:'',time:'18:00',name:'',phone:'',emg:false,notes:''};
+let step=1; const TOTAL=4;
+
+function sumLine(i,label,val){
+  const lines=$('#sumLines'); if(!lines) return;
+  const line=lines.children[i]; if(!line) return;
+  line.querySelector('span').textContent=label;
+  const b=line.querySelector('b');
+  b.textContent=val|| (lang==='ar'?'بانتظارك…':'waiting…');
+  b.classList.toggle('ph',!val);
+}
+function updateSummary(){
+  const svcObj=SERVICES.find(s=>s.id===wiz.svc);
+  const svcTxt=svcObj?(lang==='ar'?svcObj.tAr:svcObj.tEn):'';
+  const dateTxt=(wiz.date||wiz.time)?`${wiz.date||'—'} · ${wiz.time}`:'';
+  sumLine(0,lang==='ar'?'الخدمة':'Service',svcTxt);
+  sumLine(1,lang==='ar'?'المدينة':'City',wiz.city);
+  sumLine(2,lang==='ar'?'الموعد':'When',wiz.emg?(lang==='ar'?'🚨 طوارئ':'🚨 Emergency')+' · '+dateTxt:dateTxt);
+  sumLine(3,lang==='ar'?'من أنت':'Who',(wiz.name||wiz.phone)?(wiz.name||'—')+' · '+(wiz.phone||'—'):'');
+  const ready=!!(wiz.svc&&wiz.city&&(wiz.date||wiz.emg)&&wiz.phone);
+  $('#waSend').disabled=!ready;
+}
+function showStep(n){
+  step=n;
+  $$('.wiz-panel').forEach(p=>p.classList.toggle('show',+p.dataset.step===n));
+  $$('#wizDots .wiz-step-dot').forEach((d,i)=>{
+    d.classList.toggle('active',i+1===n);
+    d.classList.toggle('done',i+1<n);
+  });
+  $('#wizBack').disabled=n===1;
+  const NEXT={en:{go:'Next →',end:'Finish →'},ar:{go:'التالي ←',end:'أرسل الحجز ←'}};
+  const t=NEXT[lang==='ar'?'ar':'en'][n===TOTAL?'end':'go'];
+  $('#wizNext').dataset.en=n===TOTAL?'Finish →':'Next →';
+  $('#wizNext').dataset.ar=n===TOTAL?'أرسل الحجز ←':'التالي ←';
+  $('#wizNext').textContent=t;
+  beep(n===TOTAL?880:600,.08);
+}
+function finishWizard(){
+  const svcObj=SERVICES.find(s=>s.id===wiz.svc);
+  const svcName=svcObj?(lang==='ar'?svcObj.tAr:svcObj.tEn):'';
+  const msg=(lang==='ar')?
+    `🛠️ حجز جديد — إيليت هوم كير\n\n▪ الخدمة: ${svcName}${wiz.emg?'\n🚨 طوارئ':''}\n▪ المدينة: ${wiz.city||'—'}\n▪ الموعد: ${wiz.date||'—'} · ${wiz.time}\n▪ الاسم: ${wiz.name||'—'}\n▪ الجوال: ${wiz.phone||'—'}${wiz.notes?`\n▪ ملاحظة: ${wiz.notes}`:''}\n\nمن الموقع الرسمي — يرجى الرد فوراً.`:
+    `🛠️ New booking — Elite Home Care\n\n• Service: ${svcName}${wiz.emg?'\n🚨 EMERGENCY':''}\n• City: ${wiz.city||'—'}\n• When: ${wiz.date||'—'} at ${wiz.time}\n• Name: ${wiz.name||'—'}\n• Phone: ${wiz.phone||'—'}${wiz.notes?`\n• Notes: ${wiz.notes}`:''}\n\n(sent from your website)`;
+  localStorage.setItem('ehc-draft',JSON.stringify(wiz));
+  window.open(`${WA}?text=${encodeURIComponent(msg)}`,'_blank');
+  toast(lang==='ar'?'رسالة الحجز جاهزة — ننتظرك على واتساب':'Booking message ready — see you on WhatsApp');
+  chime();
+}
+
+/* ================= MODAL ================= */
+function openService(s){
+  const feats=lang==='ar'
+    ?['فحص كامل وسعر ثابت قبل العمل','ضمان 90 يوماً مكتوب','فني مرخص بزي رسمي']
+    :['Full diagnosis — price fixed first','90-day written warranty','Uniformed licensed technician'];
+  $('#modalBody').innerHTML=`
+    <div class="svc-ic" style="width:64px;height:64px;font-size:30px">${s.icon}</div>
+    <h3 style="font-family:var(--serif);font-size:26px;margin:16px 0 6px">${lang==='ar'?s.tAr:s.tEn}</h3>
+    <p style="color:rgba(244,241,233,.65)">${lang==='ar'?s.dAr:s.dEn}</p>
+    <ul style="list-style:none;display:grid;gap:10px;margin:22px 0;font-size:14.5px">
+      ${feats.map(f=>`<li style="color:rgba(244,241,233,.8)"><span style="color:var(--gold);margin-inline-end:10px">✦</span>${f}</li>`).join('')}
+    </ul>
+    <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="preBook('${s.id}')">
+      <i class="fas fa-calendar-check"></i><span>${lang==='ar'?'احجز هذه الخدمة':'Book this service'}</span>
+    </button>`;
+  $('#modal').classList.add('show'); beep(700,.08);
+}
+function preBook(id){
+  $('#modal').classList.remove('show');
+  showStep(1);
+  setTimeout(()=>{$$('#svcTiles .tile').forEach(t=>{if(t.dataset.id===id)t.click();});},60);
+  $('#booking').scrollIntoView({behavior:'smooth'});
+}
+$('#modalClose').addEventListener('click',()=>$('#modal').classList.remove('show'));
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')$('#modal').classList.remove('show');});
+window.preBook=preBook;
+
+/* ================= TOAST ================= */
+let toastT;
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3200);}
+
+/* ================= LANGUAGE ================= */
+function applyLangTexts(){
+  $$('[data-en]').forEach(el=>{
+    const v=lang==='ar'?el.dataset.ar:el.dataset.en;
+    if(v!==undefined&&!el.closest('#wizDots')||el.closest('#wizDots')&&false)el.innerHTML=v;
+    if(el.dataset.ph){el.placeholder=lang==='ar'?(el.dataset.arPh||''):(el.dataset.enPh||'');}
+  });
+  /* keep wizard dots in sync */
+  $$('#wizDots .wiz-step-dot').forEach((d,i)=>{
+    const labels={en:['1 · Service','2 · City','3 · Schedule','4 · Contact'],ar:['١ · الخدمة','٢ · المدينة','٣ · الموعد','٤ · التواصل']};
+    d.textContent=labels[lang==='ar'?'ar':'en'][i];
+    d.classList.toggle('active',i+1===step);
+    d.classList.toggle('done',i+1<step);
+  });
+  /* reopen step buttons */
+  const NEXT={en:{go:'Next →',end:'Finish →'},ar:{go:'التالي ←',end:'أرسل الحجز ←'}};
+  $('#wizNext').textContent=NEXT[lang==='ar'?'ar':'en'][step===TOTAL?'end':'go'];
+  $('#wizBack').textContent=lang==='ar'?'→ السابق':'← Back';
+  $('#soundTxt').textContent=audioOn?(lang==='ar'?'الصوت يعمل':'Sound on'):(lang==='ar'?'استماع بالصوت':'Listen with sound');
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.body.classList.toggle('ar',lang==='ar');
+  $('#langTxt').textContent=lang==='ar'?'English':'عربي';
+}
+$('#langBtn').addEventListener('click',()=>{
+  lang=lang==='en'?'ar':'en';
+  localStorage.setItem('ehc-lang',lang);
+  renderAll(); updateSummary(); beep(760,.08);
 });
+
+/* ================= EVENTS ================= */
+$('#wizDate').addEventListener('change',e=>{wiz.date=e.target.value;updateSummary();});
+$('#wizTime').addEventListener('change',e=>{wiz.time=e.target.value;updateSummary();});
+$('#wizName').addEventListener('input',e=>{wiz.name=e.target.value;updateSummary();});
+$('#wizPhone').addEventListener('input',e=>{wiz.phone=e.target.value;updateSummary();});
+$('#wizNotes').addEventListener('input',e=>{wiz.notes=e.target.value;});
+$('#emgSwitch').addEventListener('click',()=>{
+  wiz.emg=!wiz.emg;
+  $('#emgSwitch').classList.toggle('on',wiz.emg);
+  $('#emgSwitch').setAttribute('aria-checked',wiz.emg);
+  beep(wiz.emg?880:520,.09); updateSummary();
+});
+$('#emgSwitch').addEventListener('keypress',e=>{if(e.key==='Enter')$('#emgSwitch').click();});
+$('#wizNext').addEventListener('click',()=>{ if(step<TOTAL) showStep(step+1); else finishWizard(); });
+$('#wizBack').addEventListener('click',()=>{ if(step>1) showStep(step-1); });
+$('#waSend').addEventListener('click',finishWizard);
+$('#callSend').addEventListener('click',()=>{window.location.href=`tel:+${PHONE}`;});
+$$('.vc-mini').forEach(b=>b.addEventListener('click',()=>{
+  const go=b.dataset.go;
+  if(go==='emergency'){
+    window.open(WA+'?text='+encodeURIComponent(lang==='ar'?'🚨 طوارئ! أحتاج فنياً الآن':'🚨 EMERGENCY! I need a technician now'),'_blank');
+  }else{
+    showStep(1);
+    setTimeout(()=>$$('#svcTiles .tile').forEach(t=>{if(t.dataset.id===go)t.click();}),60);
+    $('#booking').scrollIntoView({behavior:'smooth'});
+  }
+}));
+$('#contactForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  const txt=(lang==='ar')
+    ?`✉️ رسالة جديدة\n\n▪ الاسم: ${f[0].value}\n▪ الهاتف: ${f[1].value}\n▪ الرسالة: ${f[2].value}\n\nمن الموقع.`
+    :`✉️ New message\n\n• Name: ${f[0].value}\n• Phone: ${f[1].value}\n• Message: ${f[2].value}\n\n(from website)`;
+  window.open(`${WA}?text=${encodeURIComponent(txt)}`,'_blank');
+  toast(lang==='ar'?'وصلنا رسالتك — أنا أرسلها على واتساب بضغطة زر':'WhatsApp opened — press send');
+  f.reset();
+});
+
+/* fixes on load — restore draft, then allow overwrite by user actions */
+(function restoreDraft(){
+  try{
+    const d=JSON.parse(localStorage.getItem('ehc-draft')||'null');
+    if(d){Object.assign(wiz,{svc:null,city:null,date:'',name:'',phone:'',emg:false,notes:'',time:d.time||'18:00'});
+      $('#wizDate').value=d.date||'';
+      $('#wizTime').value=wiz.time;
+      $( '#wizName').value=d.name||'';
+      $('#wizPhone').value=d.phone||'';
+      $('#wizNotes').value=d.notes||'';
+      wiz.date=d.date||'';wiz.name=d.name||'';wiz.phone=d.phone||'';
+      wiz.emg=!!d.emg;
+      if(wiz.emg)$('#emgSwitch').classList.add('on');
+    }
+  }catch(e){}
+})();
+
+/* ================= BOOT ================= */
+function boot(){
+  renderAll();
+  updateSummary();
+  showStep(1);
+  addEventListener('scroll',()=>$('#nav').classList.toggle('scrolled',scrollY>40));
+  $('#hamb').addEventListener('click',()=>{$('#menu').classList.toggle('open');beep(480,.06);});
+  $$('#menu a').forEach(a=>a.addEventListener('click',()=>$('#menu').classList.remove('open')));
+  /* reveal on scroll */
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+  }),{threshold:.1});
+  $$('.rv').forEach(el=>io.observe(el));
+  /* counters */
+  const cio=new IntersectionObserver(es=>es.forEach(en=>{
+    if(!en.isIntersecting)return;
+    const el=en.target,target=+el.dataset.count;let cur=0;
+    const inc=Math.max(1,Math.ceil(target/60));
+    const t=setInterval(()=>{cur+=inc;if(cur>=target){cur=target;clearInterval(t);}
+      el.textContent=cur.toLocaleString();},22);
+    cio.unobserve(el);
+  }),{threshold:.4});
+  $$('[data-count]').forEach(el=>cio.observe(el));
+  /* tap tick for buttons */
+  document.addEventListener('click',e=>{
+    if(e.target.closest('.btn,.fchip,.tile,.area-chip'))beep();
+  },true);
+}
+document.addEventListener('DOMContentLoaded',boot);
