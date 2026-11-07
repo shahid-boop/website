@@ -33,6 +33,48 @@ section{padding:96px 0}
 .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
 .rv.in{opacity:1;transform:none}
 
+/* ---------- boot loader ---------- */
+.boot-screen{
+  position:fixed;inset:0;z-index:100;background:var(--navy-deep);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
+  transition:opacity .6s ease,visibility .6s;
+}
+.boot-screen.hide{opacity:0;visibility:hidden}
+.boot-mark{width:68px;height:68px;border-radius:18px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:var(--navy-deep);
+  font-size:32px;font-family:var(--serif);animation:flm 1.5s ease infinite;
+  box-shadow:0 14px 44px rgba(201,166,107,.3)}
+.boot-bar{width:210px;height:3px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.boot-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-soft));
+  animation:boot .9s ease-out forwards}
+.boot-txt{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(244,241,233,.5)}
+@keyframes flm{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.07) rotate(2deg)}}
+@keyframes boot{to{width:100%}}
+
+.skip-link{position:fixed;top:-60px;left:18px;z-index:120;padding:11px 18px;border-radius:12px;
+  background:var(--gold);color:var(--navy-deep);font-weight:700;font-size:14px;transition:top .3s}
+.skip-link:focus{top:14px}
+
+/* ---------- focus rings (accessibility) ---------- */
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+/* ---------- button shine sweep ---------- */
+.btn-gold,.btn-wa{position:relative;overflow:hidden}
+.btn-gold::after,.btn-wa::after{content:"";position:absolute;top:0;bottom:0;width:44%;
+  left:-70%;transform:skewX(-18deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+  transition:left .6s ease}
+.btn-gold:hover::after,.btn-wa:hover::after{left:130%}
+
+/* ---------- wizard success ---------- */
+.wiz-success{text-align:center;padding:8px 4px}
+.success-ic{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;
+  font-size:30px;font-weight:800;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;
+  box-shadow:0 14px 40px rgba(37,211,102,.35);animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ---------- reveal stagger helper ---------- */
+.rv.in{opacity:1;transform:none;transition-delay:var(--rd,0ms)}
+
 /* ---------- type ---------- */
 h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.18;letter-spacing:-.01em}
 body.ar h1,body.ar h2,body.ar h3{font-family:var(--ar-font);font-weight:700}
@@ -170,6 +212,8 @@ body.ar .wiz-panel{animation-name:pinar}
 .inp{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--glass-b);color:var(--ivory);
   padding:13px 16px;border-radius:12px;font-size:14.5px;font-family:inherit;transition:var(--t-fast)}
 .inp:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,166,107,.15)}
+.inp-err{border-color:#f87171!important;box-shadow:0 0 0 3px rgba(248,113,113,.18)}
+.inp-err::placeholder{color:rgba(248,113,113,.55)}
 .inp::placeholder{color:rgba(244,241,233,.35)}
 label.flabel{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(244,241,233,.6);
   display:block;margin:16px 0 7px}
@@ -197,7 +241,7 @@ label.flabel{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;colo
   border:1px solid var(--glass-b);position:relative;transition:var(--t-fast)}
 .how-card:hover{border-color:var(--gold);transform:translateY(-4px)}
 .how-card .num{font-family:var(--serif);font-size:34px;color:rgba(201,166,107,.4)}
-.how-card h4{font-size:15.5px;margin:8px 0 6px;font-family:var(--serif)}
+.how-card h3{font-size:15.5px;margin:8px 0 6px;font-family:var(--serif)}
 .how-card p{font-size:13px;color:rgba(244,241,233,.58)}
 
 /* ---------- services ---------- */
@@ -214,7 +258,7 @@ label.flabel{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;colo
 .svc-card:hover::before{opacity:1}
 .svc-ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:24px;
   background:linear-gradient(135deg,rgba(201,166,107,.2),rgba(227,201,155,.1));border:1px solid rgba(201,166,107,.25);margin-bottom:16px}
-.svc-card h4{font-family:var(--serif);font-size:18px;margin-bottom:8px}
+.svc-card h3{font-family:var(--serif);font-size:18px;margin-bottom:8px}
 .svc-card p{font-size:13.5px;color:rgba(244,241,233,.58)}
 .svc-card .svc-more{display:inline-flex;gap:7px;align-items:center;margin-top:14px;font-size:13px;color:var(--gold-soft);font-weight:600}
 
@@ -246,7 +290,7 @@ label.flabel{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;colo
   font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;
   background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:var(--navy-deep)}
 .pkg i.pi{font-style:normal;font-size:30px}
-.pkg h4{font-family:var(--serif);font-size:21px;margin:14px 0 4px}
+.pkg h3{font-family:var(--serif);font-size:21px;margin:14px 0 4px}
 .pkg .pkg-sub{font-size:13.5px;color:rgba(244,241,233,.6);margin-bottom:20px}
 .pkg ul{list-style:none;display:grid;gap:10px;font-size:14px;color:rgba(244,241,233,.78);margin-bottom:26px}
 .pkg ul li::before{content:"✦";color:var(--gold);margin-inline-end:10px}
@@ -290,13 +334,13 @@ details.faq .fa-a{margin-top:14px;font-size:14.5px;color:rgba(244,241,233,.68)}
   background:rgba(255,255,255,.045);border:1px solid var(--glass-b)}
 .info-row .ic{width:46px;height:46px;flex-shrink:0;border-radius:13px;display:grid;place-items:center;font-size:19px;
   background:linear-gradient(135deg,rgba(201,166,107,.2),rgba(227,201,155,.1));color:var(--gold-soft)}
-.info-row h5{font-size:14px;margin-bottom:2px}
+.info-row h3{font-size:14px;margin-bottom:2px}
 .info-row p{font-size:13.5px;color:rgba(244,241,233,.6)}
 
 /* ---------- footer ---------- */
 footer{padding:60px 0 30px;border-top:1px solid var(--glass-b);background:rgba(9,19,33,.5)}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:34px;margin-bottom:40px}
-footer h4{font-family:var(--serif);font-size:16px;margin-bottom:16px}
+footer h3{font-family:var(--serif);font-size:16px;margin-bottom:16px}
 footer ul{list-style:none;display:grid;gap:9px;font-size:14px;color:rgba(244,241,233,.6)}
 footer ul a:hover{color:var(--gold-soft)}
 .foot-bottom{border-top:1px solid var(--glass-b);padding-top:24px;text-align:center;font-size:13px;color:rgba(244,241,233,.45)}
@@ -335,6 +379,25 @@ footer ul a:hover{color:var(--gold-soft)}
   .soundbar{font-size:12px;padding:7px 14px;bottom:150px}
   section{padding:70px 0}
   .emg{padding:32px 22px}
+}
+@media(max-width:480px){
+  h2.title{font-size:27px}
+  .hero{padding:120px 0 60px}
+  .hero h1{font-size:31px}
+  .tile-grid{grid-template-columns:repeat(2,1fr)}
+  .wiz-card{padding:22px 16px}
+  .wiz-steps{font-size:0;gap:6px}
+  .wiz-step-dot{font-size:11px;padding:8px 2px}
+  .stat .n{font-size:36px}
+  .how-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .doodle{right:6px;top:-22px;width:70px;height:70px;font-size:28px}
+  .float{width:48px;height:48px;font-size:21px}
+  .glass-card{padding:22px}
+  .btn{padding:13px 20px;font-size:13.5px}
+  .modal-card{padding:26px 20px}
+  .villa-card img{height:220px}
+  .emg .btns{flex-direction:column;align-items:stretch}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;transition-duration:.001s!important}

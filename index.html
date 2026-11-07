@@ -7,6 +7,12 @@
 <meta name="description" content="A home never cared for like this — premium home maintenance across Saudi Arabia. AC, plumbing, electrical, renovation. 24/7 emergency. صيانة منزلية فاخرة في المملكة">
 <meta name="keywords" content="home maintenance Saudi Arabia, luxury home care, AC service Riyadh, plumbing Jeddah, صيانة منازل, خدمات منزلية فاخرة">
 <meta name="theme-color" content="#091321">
+<link rel="canonical" href="https://homecare.serveirc.com/">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ar_SA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Elite Home Care — A home never cared for like this">
+<meta name="twitter:description" content="Premium home maintenance across Saudi Arabia. Build your booking in under a minute — 24/7 emergency service.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23091321'/%3E%3Cpath d='M14 34 32 18l18 16' stroke='%23C9A66B' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M20 32v14h24V32' stroke='%23E3C99B' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <meta property="og:title" content="Elite Home Care — A home never cared for like this">
 <meta property="og:description" content="Premium home maintenance across Saudi Arabia. Build your booking in under a minute — 24/7 emergency service.">
@@ -17,11 +23,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="premium-villa.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Elite Home Care",
+  "description": "Premium home maintenance services across Saudi Arabia — AC, plumbing, electrical, renovation. 24/7 emergency.",
+  "url": "https://homecare.serveirc.com/",
+  "telephone": "+966597865115",
+  "areaServed": ["Riyadh","Jeddah","Dammam","Khobar","Makkah","Madinah","Taif","Jubail"],
+  "address": { "@type": "PostalAddress", "addressCountry": "SA" },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "00:00", "closes": "23:59",
+    "description": "Emergency line 24/7 · Bookings 7am-11pm"
+  },
+  "sameAs": ["https://wa.me/966597865115"]
+}
+</script>
 </head>
 <body>
 
+<!-- Boot loader (beautiful loading state) -->
+<div class="boot-screen" id="bootScreen" aria-hidden="true">
+  <div class="boot-mark">⌂</div>
+  <div class="boot-bar"><i id="bootFill"></i></div>
+  <div class="boot-txt">Elite Home Care</div>
+</div>
+
+<!-- Skip link (accessibility) -->
+<a class="skip-link" href="#services" data-en="Skip to services" data-ar="تخطي إلى الخدمات">Skip to services</a>
+
 <!-- Sound invite (FiabaMia-style) -->
-<button class="soundbar" id="soundbar" aria-label="Toggle sound">
+<button class="soundbar" id="soundbar">
   <span class="eq"><i></i><i></i><i></i></span>
   <span id="soundTxt" data-en="Listen with sound" data-ar="استماع بالصوت">Listen with sound</span>
 </button>
@@ -45,7 +80,7 @@
       <a href="#faq" data-en="FAQ" data-ar="الأسئلة">FAQ</a>
       <a href="#booking" class="cta-link"><i class="fas fa-calendar-check"></i><span data-en="Book a Call" data-ar="احجز الآن">Book a Call</span></a>
     </div>
-    <button class="lang-btn" id="langBtn" aria-label="Language"><i class="fas fa-globe"></i><span id="langTxt">عربي</span></button>
+    <button class="lang-btn" id="langBtn"><i class="fas fa-globe"></i><span id="langTxt">عربي</span></button>
     <button class="hamburger" id="hamb" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -87,6 +122,8 @@
   </div>
 </header>
 
+<main id="main">
+
 <!-- Booking Wizard -->
 <section id="booking" class="rv">
   <div class="container">
@@ -119,9 +156,9 @@
 
         <div class="wiz-panel" data-step="3">
           <div class="wiz-q" data-en="When should we <em>knock?</em>" data-ar="متى <em>نقرق</em> الباب؟">When should we <em>knock?</em></div>
-          <label class="flabel" data-en="Preferred date" data-ar="التاريخ المفضل">Preferred date</label>
+          <label class="flabel" for="wizDate" data-en="Preferred date" data-ar="التاريخ المفضل">Preferred date</label>
           <input class="inp" type="date" id="wizDate">
-          <label class="flabel" data-en="Preferred time" data-ar="الوقت المفضل">Preferred time</label>
+          <label class="flabel" for="wizTime" data-en="Preferred time" data-ar="الوقت المفضل">Preferred time</label>
           <input class="inp" type="time" id="wizTime" value="18:00">
           <div class="switch" id="emgSwitch" role="switch" aria-checked="false" tabindex="0">
             <span class="knob"></span>
@@ -131,12 +168,25 @@
 
         <div class="wiz-panel" data-step="4">
           <div class="wiz-q" data-en="And you are…?" data-ar="وأنت…؟">And you are…?</div>
-          <label class="flabel" data-en="Your name" data-ar="اسمك">Your name</label>
+          <label class="flabel" for="wizName" data-en="Your name" data-ar="اسمك">Your name</label>
           <input class="inp" id="wizName" type="text" placeholder="">
-          <label class="flabel" data-en="Mobile number" data-ar="رقم الجوال">Mobile number</label>
-          <input class="inp" id="wizPhone" type="tel" placeholder="05__ ___ ____">
-          <label class="flabel" data-en="Anything else? (optional)" data-ar="شيء إضافي؟ (اختياري)">Anything else? (optional)</label>
+          <label class="flabel" for="wizPhone" data-en="Mobile number" data-ar="رقم الجوال">Mobile number</label>
+          <input class="inp" id="wizPhone" type="tel" placeholder="05__ ___ ____" inputmode="tel">
+          <label class="flabel" for="wizAddress" data-en="Service address" data-ar="عنوان الخدمة">Service address</label>
+          <input class="inp" id="wizAddress" type="text" data-ph data-en-ph="district, street, villa/flat no…" data-ar-ph="حي، شارع، رقم الفيلا/الشقة…" placeholder="district, street, villa/flat no…">
+          <label class="flabel" for="wizNotes" data-en="Anything else? (optional)" data-ar="شيء إضافي؟ (اختياري)">Anything else? (optional)</label>
           <input class="inp" id="wizNotes" type="text" data-ph data-en-ph="e.g. second floor AC, gate code 4481…" data-ar-ph="مثال: مكيف الدور الثاني، رمز البوابة 4481…" placeholder="e.g. second floor AC, gate code 4481…">
+        </div>
+
+        <!-- Success state -->
+        <div class="wiz-panel" data-step="done">
+          <div class="wiz-success" id="wizSuccess">
+            <div class="success-ic">✓</div>
+            <div class="wiz-q" data-en="Your booking is <em>written.</em>" data-ar="حجزك <em>تم كتابته.</em>">Your booking is <em>written.</em></div>
+            <p class="sub" id="successText" data-en="WhatsApp is open with your booking details — just press send. A real technician will confirm shortly." data-ar="واتساب مفتوح بتفاصيل حجزك — اضغط إرسال فقط. سيتأكد فني حقيقي قريباً.">WhatsApp is open with your booking details — just press send. A real technician will confirm shortly.</p>
+            <button class="btn btn-wa" style="margin-top:18px" id="reopenWa"><i class="fab fa-whatsapp"></i><span data-en="Reopen WhatsApp message" data-ar="أعد فتح رسالة واتساب">Reopen WhatsApp message</span></button>
+            <button class="btn btn-ghost" style="margin-top:10px" id="newBooking"><span data-en="Make another booking" data-ar="حجز آخر">Make another booking</span></button>
+          </div>
         </div>
 
         <div class="wiz-nav">
@@ -175,11 +225,11 @@
       <h2 class="title" data-en="How a <em>visit</em> is made" data-ar="كيف <em>تُصنع</em> الزيارة">How a <em>visit</em> is made</h2>
     </div>
     <div class="how-grid">
-      <div class="how-card"><div class="num">01</div><h4 data-en="The knock" data-ar="الطرق">The knock</h4><p data-en="On time. Shoe covers on. We listen first." data-ar="في الموعد. غطاء الأحذية. نستمع أولاً.">On time. Shoe covers on. We listen first.</p></div>
-      <div class="how-card"><div class="num">02</div><h4 data-en="The look" data-ar="النظرة">The look</h4><p data-en="Full diagnosis — price fixed with you before a single screw turns." data-ar="فحص كامل — السعر يُحدد معك قبل لف مسمار واحد.">Full diagnosis — price fixed with you before a single screw turns.</p></div>
-      <div class="how-card"><div class="num">03</div><h4 data-en="The fix" data-ar="الإصلاح">The fix</h4><p data-en="Licensed hands, original parts, a work area left cleaner than we found it." data-ar="أيادٍ مرخصة، قطع أصلية، ومكان نتركه أنظف مما وجدناه.">Licensed hands, original parts, a work area left cleaner than we found it.</p></div>
-      <div class="how-card"><div class="num">04</div><h4 data-en="The proof" data-ar="الدليل">The proof</h4><p data-en="We test with you, explain what we did, and write the warranty." data-ar="نجرّب معك، نشرح ما فعلناه، ونكتب الضمان.">We test with you, explain what we did, and write the warranty.</p></div>
-      <div class="how-card"><div class="num">05</div><h4 data-en="The promise" data-ar="الوعد">The promise</h4><p data-en="90 days on every repair. If it returns, so do we — free." data-ar="٩٠ يوماً على كل إصلاح. إن عاد العطل، عدنا — مجاناً.">90 days on every repair. If it returns, so do we — free.</p></div>
+      <div class="how-card"><div class="num">01</div><h3 data-en="The knock" data-ar="الطرق">The knock</h3><p data-en="On time. Shoe covers on. We listen first." data-ar="في الموعد. غطاء الأحذية. نستمع أولاً.">On time. Shoe covers on. We listen first.</p></div>
+      <div class="how-card"><div class="num">02</div><h3 data-en="The look" data-ar="النظرة">The look</h3><p data-en="Full diagnosis — price fixed with you before a single screw turns." data-ar="فحص كامل — السعر يُحدد معك قبل لف مسمار واحد.">Full diagnosis — price fixed with you before a single screw turns.</p></div>
+      <div class="how-card"><div class="num">03</div><h3 data-en="The fix" data-ar="الإصلاح">The fix</h3><p data-en="Licensed hands, original parts, a work area left cleaner than we found it." data-ar="أيادٍ مرخصة، قطع أصلية، ومكان نتركه أنظف مما وجدناه.">Licensed hands, original parts, a work area left cleaner than we found it.</p></div>
+      <div class="how-card"><div class="num">04</div><h3 data-en="The proof" data-ar="الدليل">The proof</h3><p data-en="We test with you, explain what we did, and write the warranty." data-ar="نجرّب معك، نشرح ما فعلناه، ونكتب الضمان.">We test with you, explain what we did, and write the warranty.</p></div>
+      <div class="how-card"><div class="num">05</div><h3 data-en="The promise" data-ar="الوعد">The promise</h3><p data-en="90 days on every repair. If it returns, so do we — free." data-ar="٩٠ يوماً على كل إصلاح. إن عاد العطل، عدنا — مجاناً.">90 days on every repair. If it returns, so do we — free.</p></div>
     </div>
   </div>
 </section>
@@ -305,26 +355,28 @@
     <div class="contact-grid">
       <div class="glass-card">
         <form id="contactForm">
-          <label class="flabel" data-en="Your name" data-ar="اسمك">Your name</label>
-          <input class="inp" type="text" required>
-          <label class="flabel" data-en="Phone number" data-ar="رقم الهاتف">Phone number</label>
-          <input class="inp" type="tel" required>
-          <label class="flabel" data-en="Message" data-ar="رسالتك">Message</label>
-          <textarea class="inp" rows="4" required style="resize:vertical"></textarea>
+          <label class="flabel" for="cName" data-en="Your name" data-ar="اسمك">Your name</label>
+          <input class="inp" id="cName" type="text" required>
+          <label class="flabel" for="cPhone" data-en="Phone number" data-ar="رقم الهاتف">Phone number</label>
+          <input class="inp" id="cPhone" type="tel" required>
+          <label class="flabel" for="cMsg" data-en="Message" data-ar="رسالتك">Message</label>
+          <textarea class="inp" id="cMsg" rows="4" required style="resize:vertical"></textarea>
           <button class="btn btn-wa" style="margin-top:20px;width:100%;justify-content:center" type="submit">
             <i class="fab fa-whatsapp"></i><span data-en="Send on WhatsApp" data-ar="أرسل على واتساب">Send on WhatsApp</span>
           </button>
         </form>
       </div>
       <div class="info-rows">
-        <div class="info-row"><span class="ic"><i class="fas fa-map-marker-alt"></i></span><div><h5 data-en="Where we are" data-ar="موقعنا">Where we are</h5><p data-en="Riyadh · Jeddah · Dammam · and five more cities" data-ar="الرياض · جدة · الدمام · وثماني مدن أخرى">Riyadh · Jeddah · Dammam · and five more cities</p></div></div>
-        <div class="info-row"><span class="ic"><i class="fas fa-clock"></i></span><div><h5 data-en="When we work" data-ar="أوقات العمل">When we work</h5><p data-en="Bookings 7am–11pm · Emergency line 24/7" data-ar="الحجوزات 7ص–11م · خط الطوارئ 24/7">Bookings 7am–11pm · Emergency line 24/7</p></div></div>
-        <div class="info-row"><span class="ic"><i class="fab fa-whatsapp"></i></span><div><h5 data-en="WhatsApp" data-ar="واتساب">WhatsApp</h5><p>+966 59 786 5115</p></div></div>
-        <div class="info-row"><span class="ic"><i class="fas fa-shield-halved"></i></span><div><h5 data-en="Warranty" data-ar="الضمان">Warranty</h5><p data-en="90 days on every repair, written." data-ar="٩٠ يوماً على كل إصلاح، ومكتوب.">90 days on every repair, written.</p></div></div>
+        <div class="info-row"><span class="ic"><i class="fas fa-map-marker-alt"></i></span><div><h3 data-en="Where we are" data-ar="موقعنا">Where we are</h3><p data-en="Riyadh · Jeddah · Dammam · and five more cities" data-ar="الرياض · جدة · الدمام · وثماني مدن أخرى">Riyadh · Jeddah · Dammam · and five more cities</p></div></div>
+        <div class="info-row"><span class="ic"><i class="fas fa-clock"></i></span><div><h3 data-en="When we work" data-ar="أوقات العمل">When we work</h3><p data-en="Bookings 7am–11pm · Emergency line 24/7" data-ar="الحجوزات 7ص–11م · خط الطوارئ 24/7">Bookings 7am–11pm · Emergency line 24/7</p></div></div>
+        <div class="info-row"><span class="ic"><i class="fab fa-whatsapp"></i></span><div><h3 data-en="WhatsApp" data-ar="واتساب">WhatsApp</h3><p>+966 59 786 5115</p></div></div>
+        <div class="info-row"><span class="ic"><i class="fas fa-shield-halved"></i></span><div><h3 data-en="Warranty" data-ar="الضمان">Warranty</h3><p data-en="90 days on every repair, written." data-ar="٩٠ يوماً على كل إصلاح، ومكتوب.">90 days on every repair, written.</p></div></div>
       </div>
     </div>
   </div>
 </section>
+
+</main>
 
 <!-- Footer -->
 <footer>
@@ -334,19 +386,19 @@
         <a href="#home" class="brand" style="margin-bottom:14px"><span class="brand-ic"><i class="fas fa-building"></i></span><span><b>Elite Home Care</b><small data-en="Premium Services" data-ar="خدمات متميزة">Premium Services</small></span></a>
         <p style="font-size:14px;color:rgba(244,241,233,.55)" data-en="Your home, under one caring number. Premium maintenance across Saudi Arabia." data-ar="منزلك تحت رقم واحد يعتني به. صيانة فاخرة في جميع أنحاء المملكة.">Your home, under one caring number. Premium maintenance across Saudi Arabia.</p>
       </div>
-      <div><h4 data-en="Explore" data-ar="استكشف">Explore</h4><ul>
+      <div><h3 data-en="Explore" data-ar="استكشف">Explore</h3><ul>
         <li><a href="#services" data-en="Services" data-ar="الخدمات">Services</a></li>
         <li><a href="#packages" data-en="Packages" data-ar="الباقات">Packages</a></li>
         <li><a href="#reviews" data-en="Reviews" data-ar="الآراء">Reviews</a></li>
         <li><a href="#faq" data-en="FAQ" data-ar="الأسئلة">FAQ</a></li>
       </ul></div>
-      <div><h4 data-en="Popular services" data-ar="الخدمات الشائعة">Popular services</h4><ul>
+      <div><h3 data-en="Popular services" data-ar="الخدمات الشائعة">Popular services</h3><ul>
         <li><a href="#services" data-en="AC Services" data-ar="التكييف">AC Services</a></li>
         <li><a href="#services" data-en="Plumbing" data-ar="السباكة">Plumbing</a></li>
         <li><a href="#services" data-en="Electrical" data-ar="الكهرباء">Electrical</a></li>
         <li><a href="#services" data-en="Renovation" data-ar="التجديد">Renovation</a></li>
       </ul></div>
-      <div><h4 data-en="Reach us" data-ar="تواصل">Reach us</h4><ul>
+      <div><h3 data-en="Reach us" data-ar="تواصل">Reach us</h3><ul>
         <li><a href="https://wa.me/966597865115" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
         <li><a href="tel:+966597865115"><i class="fas fa-phone"></i> +966 59 786 5115</a></li>
         <li><span data-en="24/7 emergency line" data-ar="خط طوارئ 24/7">24/7 emergency line</span></li>
@@ -357,13 +409,16 @@
 </footer>
 
 <!-- Modal -->
-<div class="modal" id="modal"><div class="modal-card" id="modalCard">
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Service details"><div class="modal-card" id="modalCard">
   <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
   <div id="modalBody"></div>
 </div></div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<!-- Optional backend config: paste your Supabase project URL + anon key here.
+     Keys are PUBLIC-SAFE by design (RLS protects data). Empty = WhatsApp-only flow. -->
+<script src="config.js"></script>
 <script src="premium-villa-app.js"></script>
 </body>
 </html>

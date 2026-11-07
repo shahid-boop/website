@@ -1,0 +1,4 @@
+# Local tooling — never push (commit scripts contain a GitHub PAT; serve.mjs is dev-only)
+commit.ps1
+commit-branch.ps1
+serve.mjs

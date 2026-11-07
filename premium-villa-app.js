@@ -6,6 +6,7 @@ const PHONE='966597865115';
 const WA=`https://wa.me/${PHONE}`;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let lang=localStorage.getItem('ehc-lang')||'en';
+const bootStart=Date.now();
 
 /* ================= DATA ================= */
 const SERVICES=[
@@ -101,7 +102,7 @@ function renderAll(){
   SERVICES.forEach(s=>{
     const d=document.createElement('div');
     d.className='svc-card';d.dataset.cat=svcCat(s);
-    d.innerHTML=`<div class="svc-ic">${s.icon}</div><h4>${lang==='ar'?s.tAr:s.tEn}</h4><p>${lang==='ar'?s.dAr:s.dEn}</p>
+    d.innerHTML=`<div class="svc-ic">${s.icon}</div><h3>${lang==='ar'?s.tAr:s.tEn}</h3><p>${lang==='ar'?s.dAr:s.dEn}</p>
       <span class="svc-more">${lang==='ar'?'ماذا يشمل':"What's included"} →</span>`;
     d.onclick=()=>openService(s);
     g.appendChild(d);
@@ -159,7 +160,7 @@ function renderAll(){
       ?`مرحباً، أرغب في باقة «${p.tAr}» من إيليت هوم كير.`
       :`Hello! I'd like the "${p.tEn}" package from Elite Home Care.`);
     d.innerHTML=`${p.hot?`<span class="tag">${lang==='ar'?'الأكثر طلباً':'Most loved'}</span>`:''}
-      <div class="pi">${p.emoji}</div><h4>${lang==='ar'?p.tAr:p.tEn}</h4>
+      <div class="pi">${p.emoji}</div><h3>${lang==='ar'?p.tAr:p.tEn}</h3>
       <div class="pkg-sub">${lang==='ar'?p.sAr:p.sEn}</div>
       <ul>${p.fe.map(f=>`<li>${lang==='ar'?f[1]:f[0]}</li>`).join('')}</ul>
       <a class="btn ${p.hot?'btn-gold':'btn-ghost'}" target="_blank" rel="noopener" href="${WA}?text=${msg}">
@@ -185,7 +186,7 @@ function renderAll(){
 }
 
 /* ================= WIZARD ================= */
-const wiz={svc:null,city:null,date:'',time:'18:00',name:'',phone:'',emg:false,notes:''};
+const wiz={svc:null,city:null,date:'',time:'18:00',name:'',phone:'',address:'',emg:false,notes:''};
 let step=1; const TOTAL=4;
 
 function sumLine(i,label,val){
@@ -209,12 +210,14 @@ function updateSummary(){
 }
 function showStep(n){
   step=n;
-  $$('.wiz-panel').forEach(p=>p.classList.toggle('show',+p.dataset.step===n));
+  $$('.wiz-panel').forEach(p=>p.classList.toggle('show',p.dataset.step===String(n)));
   $$('#wizDots .wiz-step-dot').forEach((d,i)=>{
-    d.classList.toggle('active',i+1===n);
-    d.classList.toggle('done',i+1<n);
+    d.classList.toggle('active',typeof n==='number'&&i+1===n);
+    d.classList.toggle('done',typeof n==='number'&&i+1<n);
   });
-  $('#wizBack').disabled=n===1;
+  const done=n==='done';
+  const nav=$('.wiz-nav'); if(nav)nav.style.display=done?'none':'';
+  $('#wizBack').disabled=done||n===1;
   const NEXT={en:{go:'Next →',end:'Finish →'},ar:{go:'التالي ←',end:'أرسل الحجز ←'}};
   const t=NEXT[lang==='ar'?'ar':'en'][n===TOTAL?'end':'go'];
   $('#wizNext').dataset.en=n===TOTAL?'Finish →':'Next →';
@@ -222,17 +225,86 @@ function showStep(n){
   $('#wizNext').textContent=t;
   beep(n===TOTAL?880:600,.08);
 }
-function finishWizard(){
+function buildBookingMsg(){
   const svcObj=SERVICES.find(s=>s.id===wiz.svc);
   const svcName=svcObj?(lang==='ar'?svcObj.tAr:svcObj.tEn):'';
-  const msg=(lang==='ar')?
-    `🛠️ حجز جديد — إيليت هوم كير\n\n▪ الخدمة: ${svcName}${wiz.emg?'\n🚨 طوارئ':''}\n▪ المدينة: ${wiz.city||'—'}\n▪ الموعد: ${wiz.date||'—'} · ${wiz.time}\n▪ الاسم: ${wiz.name||'—'}\n▪ الجوال: ${wiz.phone||'—'}${wiz.notes?`\n▪ ملاحظة: ${wiz.notes}`:''}\n\nمن الموقع الرسمي — يرجى الرد فوراً.`:
-    `🛠️ New booking — Elite Home Care\n\n• Service: ${svcName}${wiz.emg?'\n🚨 EMERGENCY':''}\n• City: ${wiz.city||'—'}\n• When: ${wiz.date||'—'} at ${wiz.time}\n• Name: ${wiz.name||'—'}\n• Phone: ${wiz.phone||'—'}${wiz.notes?`\n• Notes: ${wiz.notes}`:''}\n\n(sent from your website)`;
-  localStorage.setItem('ehc-draft',JSON.stringify(wiz));
-  window.open(`${WA}?text=${encodeURIComponent(msg)}`,'_blank');
-  toast(lang==='ar'?'رسالة الحجز جاهزة — ننتظرك على واتساب':'Booking message ready — see you on WhatsApp');
-  chime();
+  return (lang==='ar')?
+    `🛠️ حجز جديد — إيليت هوم كير\n\n▪ الخدمة: ${svcName}${wiz.emg?'\n🚨 طوارئ':''}\n▪ المدينة: ${wiz.city||'—'}\n▪ الموعد: ${wiz.date||'—'} · ${wiz.time}\n▪ الاسم: ${wiz.name||'—'}\n▪ الجوال: ${wiz.phone||'—'}\n▪ العنوان: ${wiz.address||'—'}${wiz.notes?`\n▪ ملاحظة: ${wiz.notes}`:''}\n\nمن الموقع الرسمي — يرجى الرد فوراً.`:
+    `🛠️ New booking — Elite Home Care\n\n• Service: ${svcName}${wiz.emg?'\n🚨 EMERGENCY':''}\n• City: ${wiz.city||'—'}\n• When: ${wiz.date||'—'} at ${wiz.time}\n• Name: ${wiz.name||'—'}\n• Phone: ${wiz.phone||'—'}\n• Address: ${wiz.address||'—'}${wiz.notes?`\n• Notes: ${wiz.notes}`:''}\n\n(sent from your website)`;
 }
+/* Supabase (optional real integration, reads public config.js)
+   ---------- DB contract per supabase-schema.sql -----------*/
+async function saveToSupabase(){
+  const cfg=window.EHC_CONFIG||{};
+  if(!cfg.supabaseUrl||!cfg.supabaseAnonKey) return {skipped:true};
+  const genNum=()=> 'EHC-'+Date.now().toString(36).toUpperCase()+Math.floor(Math.random()*1296).toString(36).toUpperCase();
+  try{
+    const res=await fetch(`${cfg.supabaseUrl}/rest/v1/bookings`,{
+      method:'POST',
+      headers:{
+        apikey:cfg.supabaseAnonKey,
+        Authorization:`Bearer ${cfg.supabaseAnonKey}`,
+        'Content-Type':'application/json',
+        Prefer:'return=representation'
+      },
+      body:JSON.stringify({
+        booking_number:genNum(),
+        preferred_date:wiz.date||new Date().toISOString().slice(0,10),
+        preferred_time:wiz.time||null,
+        address:wiz.address||'',
+        city:wiz.city||'',
+        customer_phone:wiz.phone||'',
+        customer_notes:[wiz.emg?'EMERGENCY/URGENT':null,wiz.notes||null].filter(Boolean).join(' | ')||null,
+        status:'pending'
+      })
+    });
+    if(!res.ok){const t=await res.text();return {ok:false,code:res.status,body:t.slice(0,140)};}
+    const row=await res.json();
+    return {ok:true,data:Array.isArray(row)?row[0]:row};
+  }catch(e){return {ok:false,code:0,body:String(e&&e.message||e).slice(0,140)};}
+}
+async function finishWizard(){
+  if(wiz.busy)return; wiz.busy=true;
+  try{
+  /* real validation first — never open WhatsApp with a half-filled request */
+  if(!wiz.svc||!wiz.city){ toast(lang==='ar'?'أكمل الخطوات ١ و ٢ من فضلك':'Please complete steps 1 and 2'); showStep(Math.min(step,(wiz.svc?2:1))); return; }
+  const digits=(wiz.phone||'').replace(/[^\d+]/g,'');
+  const valid=/(?:\+?966|0)5\d{8}$/.test(digits.replace(/\s/g,''));
+  if(!valid){
+    toast(lang==='ar'?'رقم جوال سعودي غير صالح — 05xxxxxxxx':'Enter a valid Saudi mobile — 05xxxxxxxx');
+    $('#wizPhone').classList.add('inp-err');setFocusPhone();
+    beep(430,.09);
+    return;
+  }
+  $('#wizPhone').classList.remove('inp-err');
+  if(!wiz.address||wiz.address.trim().length<5){
+    toast(lang==='ar'?'عنوان الخدمة مطلوب (حي، شارع، رقم)':'Service address is required (district, street, no.)');
+    $('#wizAddress').classList.add('inp-err');$('#wizAddress').focus();
+    beep(430,.09);
+    return;
+  }
+  $('#wizAddress').classList.remove('inp-err');
+  const msg=buildBookingMsg();
+  lastBookingMsg=msg;
+  /* privacy: never persist booking PII to localStorage; clear any legacy draft */
+  try{localStorage.removeItem('ehc-draft');}catch(e){}
+  window.open(`${WA}?text=${encodeURIComponent(msg)}`,'_blank','noopener');
+  /* try DB save — silent fallback keeps WhatsApp flow always working */
+  const saved=await saveToSupabase();
+  lastSave=(saved&&saved.ok)?'db':'wa';
+  setSuccessText();
+  if(!audioOn){toast(lang==='ar'?'تم تجهيز الحجز ✓':'Booking ready ✓');}
+  showStep('done');chime();
+  }finally{wiz.busy=false;}
+}
+let lastBookingMsg='',lastSave=null;
+function setSuccessText(){
+  const tEl=$('#successText'); if(!tEl||!lastSave) return;
+  tEl.textContent=(lastSave==='db')
+    ?(lang==='ar'?'تم حفظ حجزك في نظامنا وفتح واتساب بتفاصيله — اضغط إرسال ليصل الفريق.':'Saved to our system — WhatsApp also opened with details. Press send and our team confirms.')
+    :(lang==='ar'?'واتساب جاهز بتفاصيل حجزك — اضغط إرسال. سيتأكد فني حقيقي قريباً.':'WhatsApp is open with your booking details — just press send. A real technician will confirm shortly.');
+}
+function setFocusPhone(){try{$('#wizPhone').focus();}catch(e){}}
 
 /* ================= MODAL ================= */
 function openService(s){
@@ -246,7 +318,7 @@ function openService(s){
     <ul style="list-style:none;display:grid;gap:10px;margin:22px 0;font-size:14.5px">
       ${feats.map(f=>`<li style="color:rgba(244,241,233,.8)"><span style="color:var(--gold);margin-inline-end:10px">✦</span>${f}</li>`).join('')}
     </ul>
-    <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="preBook('${s.id}')">
+    <button class="btn btn-gold" style="width:100%;justify-content:center" data-prebook="${s.id}">
       <i class="fas fa-calendar-check"></i><span>${lang==='ar'?'احجز هذه الخدمة':'Book this service'}</span>
     </button>`;
   $('#modal').classList.add('show'); beep(700,.08);
@@ -259,6 +331,10 @@ function preBook(id){
 }
 $('#modalClose').addEventListener('click',()=>$('#modal').classList.remove('show'));
 $('#modal').addEventListener('click',e=>{if(e.target.id==='modal')$('#modal').classList.remove('show');});
+$('#modalBody').addEventListener('click',e=>{
+  const b=e.target.closest('[data-prebook]');
+  if(b)preBook(b.dataset.prebook);
+});
 window.preBook=preBook;
 
 /* ================= TOAST ================= */
@@ -288,6 +364,7 @@ function applyLangTexts(){
   document.documentElement.dir=lang==='ar'?'rtl':'ltr';
   document.body.classList.toggle('ar',lang==='ar');
   $('#langTxt').textContent=lang==='ar'?'English':'عربي';
+  setSuccessText();
 }
 $('#langBtn').addEventListener('click',()=>{
   lang=lang==='en'?'ar':'en';
@@ -299,7 +376,8 @@ $('#langBtn').addEventListener('click',()=>{
 $('#wizDate').addEventListener('change',e=>{wiz.date=e.target.value;updateSummary();});
 $('#wizTime').addEventListener('change',e=>{wiz.time=e.target.value;updateSummary();});
 $('#wizName').addEventListener('input',e=>{wiz.name=e.target.value;updateSummary();});
-$('#wizPhone').addEventListener('input',e=>{wiz.phone=e.target.value;updateSummary();});
+$('#wizPhone').addEventListener('input',e=>{wiz.phone=e.target.value;e.target.classList.remove('inp-err');updateSummary();});
+$('#wizAddress').addEventListener('input',e=>{wiz.address=e.target.value;e.target.classList.remove('inp-err');});
 $('#wizNotes').addEventListener('input',e=>{wiz.notes=e.target.value;});
 $('#emgSwitch').addEventListener('click',()=>{
   wiz.emg=!wiz.emg;
@@ -312,10 +390,27 @@ $('#wizNext').addEventListener('click',()=>{ if(step<TOTAL) showStep(step+1); el
 $('#wizBack').addEventListener('click',()=>{ if(step>1) showStep(step-1); });
 $('#waSend').addEventListener('click',finishWizard);
 $('#callSend').addEventListener('click',()=>{window.location.href=`tel:+${PHONE}`;});
+$('#reopenWa').addEventListener('click',()=>{
+  if(!lastBookingMsg)return;
+  window.open(`${WA}?text=${encodeURIComponent(lastBookingMsg)}`,'_blank','noopener');
+  beep(720,.08);
+});
+$('#newBooking').addEventListener('click',()=>{
+  Object.assign(wiz,{svc:null,city:null,date:'',time:'18:00',name:'',phone:'',address:'',emg:false,notes:'',busy:false});
+  $('#wizDate').value='';$('#wizTime').value='18:00';
+  $('#wizName').value='';$('#wizPhone').value='';$('#wizAddress').value='';$('#wizNotes').value='';
+  $('#wizPhone').classList.remove('inp-err');$('#wizAddress').classList.remove('inp-err');
+  $('#emgSwitch').classList.remove('on');$('#emgSwitch').setAttribute('aria-checked','false');
+  lastBookingMsg='';lastSave=null;
+  try{localStorage.removeItem('ehc-draft');}catch(e){}
+  updateSummary();showStep(1);
+  $('#booking').scrollIntoView({behavior:'smooth'});
+  beep(600,.06);
+});
 $$('.vc-mini').forEach(b=>b.addEventListener('click',()=>{
   const go=b.dataset.go;
   if(go==='emergency'){
-    window.open(WA+'?text='+encodeURIComponent(lang==='ar'?'🚨 طوارئ! أحتاج فنياً الآن':'🚨 EMERGENCY! I need a technician now'),'_blank');
+    window.open(WA+'?text='+encodeURIComponent(lang==='ar'?'🚨 طوارئ! أحتاج فنياً الآن':'🚨 EMERGENCY! I need a technician now'),'_blank','noopener');
   }else{
     showStep(1);
     setTimeout(()=>$$('#svcTiles .tile').forEach(t=>{if(t.dataset.id===go)t.click();}),60);
@@ -328,7 +423,7 @@ $('#contactForm').addEventListener('submit',e=>{
   const txt=(lang==='ar')
     ?`✉️ رسالة جديدة\n\n▪ الاسم: ${f[0].value}\n▪ الهاتف: ${f[1].value}\n▪ الرسالة: ${f[2].value}\n\nمن الموقع.`
     :`✉️ New message\n\n• Name: ${f[0].value}\n• Phone: ${f[1].value}\n• Message: ${f[2].value}\n\n(from website)`;
-  window.open(`${WA}?text=${encodeURIComponent(txt)}`,'_blank');
+  window.open(`${WA}?text=${encodeURIComponent(txt)}`,'_blank','noopener');
   toast(lang==='ar'?'وصلنا رسالتك — أنا أرسلها على واتساب بضغطة زر':'WhatsApp opened — press send');
   f.reset();
 });
@@ -337,13 +432,14 @@ $('#contactForm').addEventListener('submit',e=>{
 (function restoreDraft(){
   try{
     const d=JSON.parse(localStorage.getItem('ehc-draft')||'null');
-    if(d){Object.assign(wiz,{svc:null,city:null,date:'',name:'',phone:'',emg:false,notes:'',time:d.time||'18:00'});
+    if(d){Object.assign(wiz,{svc:null,city:null,date:'',name:'',phone:'',address:'',emg:false,notes:'',time:d.time||'18:00'});
       $('#wizDate').value=d.date||'';
       $('#wizTime').value=wiz.time;
       $( '#wizName').value=d.name||'';
       $('#wizPhone').value=d.phone||'';
+      $('#wizAddress').value=d.address||'';
       $('#wizNotes').value=d.notes||'';
-      wiz.date=d.date||'';wiz.name=d.name||'';wiz.phone=d.phone||'';
+      wiz.date=d.date||'';wiz.name=d.name||'';wiz.phone=d.phone||'';wiz.address=d.address||'';
       wiz.emg=!!d.emg;
       if(wiz.emg)$('#emgSwitch').classList.add('on');
     }
@@ -358,11 +454,16 @@ function boot(){
   addEventListener('scroll',()=>$('#nav').classList.toggle('scrolled',scrollY>40));
   $('#hamb').addEventListener('click',()=>{$('#menu').classList.toggle('open');beep(480,.06);});
   $$('#menu a').forEach(a=>a.addEventListener('click',()=>$('#menu').classList.remove('open')));
-  /* reveal on scroll */
+  /* reveal on scroll (per-sibling stagger) */
   const io=new IntersectionObserver(es=>es.forEach(e=>{
     if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
   }),{threshold:.1});
-  $$('.rv').forEach(el=>io.observe(el));
+  $$('.rv').forEach(el=>{
+    const par=el.parentElement;
+    const idx=par?Array.from(par.children).filter(c=>c.classList&&c.classList.contains('rv')).indexOf(el):0;
+    el.style.setProperty('--rd',Math.min(idx,5)*80+'ms');
+    io.observe(el);
+  });
   /* counters */
   const cio=new IntersectionObserver(es=>es.forEach(en=>{
     if(!en.isIntersecting)return;
@@ -377,5 +478,18 @@ function boot(){
   document.addEventListener('click',e=>{
     if(e.target.closest('.btn,.fchip,.tile,.area-chip'))beep();
   },true);
+  /* Esc closes modal */
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&$('#modal').classList.contains('show'))$('#modal').classList.remove('show');
+  });
+  /* boot loader: min 600ms after window load, plus safety timeout */
+  const hide=()=>{const w=Math.max(0,600-(Date.now()-bootStart));setTimeout(hideBoot,w);};
+  if(document.readyState==='complete')hide(); else addEventListener('load',hide);
+  setTimeout(hideBoot,3200);
+}
+function hideBoot(){
+  const b=$('#bootScreen'); if(!b) return;
+  b.classList.add('hide');
+  setTimeout(()=>b.remove(),800);
 }
 document.addEventListener('DOMContentLoaded',boot);
